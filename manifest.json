@@ -1,0 +1,28 @@
+{
+    "manifest_version": 2,
+    "name": "あの娘",
+    "description": "An extention for Google Chrome",
+    "version": "0.4",
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "content_scripts": [{
+		"matches": ["<all_urls>"],
+		"js": ["main.js"]
+	}],
+    "permissions": [
+		"tabs",
+        "contextMenus",
+		"background",
+		"http://*/*",
+		"https://*/*"
+    ],
+    "icons": {
+        "16": "pekora16.png"
+    },
+	"browser_action": {
+        "default_icon": "pekora16.png",
+        "default_title": "pekora"
+    }
+}
+
