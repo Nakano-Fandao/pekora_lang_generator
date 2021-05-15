@@ -1,28 +1,28 @@
 {
     "manifest_version": 2,
-    "name": "あの娘",
-    "description": "An extention for Google Chrome",
-    "version": "0.4",
+    "name": "Meet ぺこら!",
+    "description": "Pekora lang translator - an extension for Google Chrome to translate the Japanese texts into Pecora's spoken language",
+    "version": "1.0",
     "background": {
         "scripts": ["background.js"]
     },
     "content_scripts": [{
 		"matches": ["<all_urls>"],
-		"js": ["main.js"]
+		"js": ["jquery-3.6.0.min.js", "contents.js"]
 	}],
     "permissions": [
 		"tabs",
-        "contextMenus",
 		"background",
 		"http://*/*",
 		"https://*/*"
     ],
     "icons": {
-        "16": "pekora16.png"
+        "16": "./icons/icon16.png",
+        "48": "./icons/icon48.png"
     },
 	"browser_action": {
-        "default_icon": "pekora16.png",
-        "default_title": "pekora"
+        "default_icon": "./icons/icon16.png",
+        "default_title": "icon"
     }
 }
 
