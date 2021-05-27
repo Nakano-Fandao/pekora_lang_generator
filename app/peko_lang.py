@@ -1,3 +1,4 @@
+from types import prepare_class
 import MeCab
 import json
 
@@ -31,11 +32,19 @@ def convert_distal_to_natural(word_class):
         if i != len(word_class)-1:
             post_word, post_part, post_type, post_form, post_origin = get_keitaiso_detail(word_class[i+1])
 
+        if i != 0:
+            if (pre_part == '補助記号') & (pre_word not in ["。", "、"]):
+                sentence += word
+                continue
 
-        print(word, part, type, form, origin)
+        if part == "接頭辞":
+            o_escape_list = ["はし", "箸", "めでたい", "味噌汁", "みそしる", "米", "こめ"]
+            go_escape_list = ["はん", "飯"]
+            if ((word in ["お", "オ"]) & (post_origin not in o_escape_list)) | \
+                ((word in ["ご", "御"]) & (post_origin not in go_escape_list)):
+                continue
 
-
-        if part == '助動詞':
+        elif part == '助動詞':
 
             # 連用形のとき、「た」に繋がるため音便あり
             onbin = (False, True) [form in ['連用形']]
@@ -61,11 +70,23 @@ def convert_distal_to_natural(word_class):
                     sentence = sentence.rsplit(pre_word, 1)[0] + get_katsuyou("する", "サ行変格", form, onbin)
                     continue
 
-                else:
+                elif (pre_origin in ["おる"]):
+                    if (word_class[i-2]["origin"] == "を") | (i<=2):
+                        sentence = sentence.rsplit(pre_word, 1)[0] + get_katsuyou("おる", "五段-ラ行", form, onbin)
+                        continue
+                    else:
+                        # て-おり-ます-△ → て-いる-△
+                        sentence = sentence.rsplit(pre_word, 1)[0] + get_katsuyou("いる", "上一段-ア行", form, onbin)
+                        continue
+
+                elif (pre_origin in ["居る"]):
+                    sentence = sentence.rsplit(pre_word, 1)[0] + get_katsuyou(pre_origin, pre_type, form, onbin)
+                    continue
+                elif (pre_origin in ["折る", "織る"]):
                     sentence = sentence.rsplit(pre_word, 1)[0] + get_katsuyou(pre_origin, pre_type, form, onbin)
                     continue
 
-            if origin == 'です':
+            elif origin == 'です':
                 if (post_origin in ["か"]) & (post_part == "助詞"):
                     continue
                 else:
@@ -91,15 +112,19 @@ def get_katsuyou(origin, type, form, onbin):
     root  : 語幹
     """
 
-    # 動詞-変格活用 以外のとき
-    if '-' in type: # type = "五段活用-ア行" or "助動詞-ダ"
+    # 動詞-変格活用 以外のとき（"五段活用-ア行" or "助動詞-ダ"）
+    if '-' in type:
         dan, gyou = type.split('-')
         target_katsuyou = katsuyou_json[dan][gyou]
 
-    # 動詞-変格活用のとき
-    else: # type = "カ行変格"
-        dan = type
-        target_katsuyou = katsuyou_json[dan]
+    else:
+        # 動詞-変格活用のとき（"カ行変格"）
+        try:
+            dan = type
+            target_katsuyou = katsuyou_json[dan]
+        except:
+            # 記号のときは、そのまま返す
+            return origin
 
     # katsuyou = ''
 
@@ -185,7 +210,10 @@ def convert_natural_to_peko(word_class):
         word, part, type, form, origin = get_keitaiso_detail(word_dict)
 
         if form == '終止形':
-            sentence += word + "ぺこ"
+            if word in ["だ"]:
+                sentence += "ぺこ"
+            else:
+                sentence += word + "ぺこ"
             continue
 
         elif (word in ['か', 'の']) & (word_dict['subpart1'] == "終助詞"):
@@ -196,22 +224,18 @@ def convert_natural_to_peko(word_class):
 
     return sentence
 
-def main(sentence_list):
-    natural_sentence_list = []
-    for sentence in sentence_list:
-        word_class = mecab_dict(sentence)
-        natural_sentence_list.append(convert_distal_to_natural(word_class))
+def peko_main(sentence):
+    word_class = mecab_dict(sentence)
+    natural_sentence = convert_distal_to_natural(word_class)
 
-    peko_sentence_list = []
-    for natural_sentence in natural_sentence_list:
-        natural_word_class = mecab_dict(natural_sentence)
-        peko_sentence_list.append(convert_natural_to_peko(natural_word_class))
+    natural_word_class = mecab_dict(natural_sentence)
+    peko_sentence = convert_natural_to_peko(natural_word_class)
 
-    print(peko_sentence_list)
-
-    return peko_sentence_list
+    print(peko_sentence)
+    return peko_sentence
 
 
-sentence = ["[「」]", ""]
+sentence = """
+"""
 
-main(sentence)
+peko_main(sentence)

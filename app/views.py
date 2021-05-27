@@ -61,15 +61,12 @@ def pekora():
 
 
 def translate_body(sentence):
-    word_class = peko_lang.mecab_dict(sentence)
-    natural_sentence = peko_lang.convert_distal_to_natural(word_class)
-    natural_word_class = peko_lang.mecab_dict(natural_sentence)
-    peko_sentence = peko_lang.convert_natural_to_peko(natural_word_class)
-
+    peko_sentence = peko_lang.peko_main(sentence)
     return peko_sentence
 
 def translate_headline(item):
-    return item
+    peko_item = peko_lang.peko_main(item)
+    return peko_item
 
 
 if __name__ == '__main__':
