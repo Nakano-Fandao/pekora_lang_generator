@@ -2,7 +2,6 @@
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import json
-
 import peko_lang
 
 app = Flask(__name__)
