@@ -62,7 +62,7 @@ function send_to_py(array) {
             replace_all(result.headline)
         },
         // Failure
-        error => alert('だめぺこ')
+        error => alert('翻訳失敗ぺこ！！')
     );
 
 }
