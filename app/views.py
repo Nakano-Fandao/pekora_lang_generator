@@ -1,4 +1,5 @@
 # app.py
+from os import terminal_size
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import json
@@ -23,14 +24,7 @@ def pekora():
         },
         'headline': {
             'li': [],
-            'th': [],
-            'td': [],
-            'h1': [],
-            'h2': [],
-            'h3': [],
-            'h4': [],
-            'h5': [],
-            'h6': []
+            ...
         }
     }
     """
@@ -42,12 +36,10 @@ def pekora():
     headline_dict = json_data['headline']
 
     # Translate the text one by one to Pekora lang (list → list)
-    peko_body = list(map(translate_body, body_dict['p']))
+    peko_body = translate_body(body_dict['p'])
     print("Pekora translation completed for Body sentences")
 
-    peko_head = {}
-    for headline_tag in headline_dict:
-        peko_head[headline_tag] = list(map(translate_headline, headline_dict[headline_tag]))
+    peko_head = translate_headline(headline_dict)
     print("Pekora translation completed for Headlines and lists")
 
     peko_dict = {
@@ -64,12 +56,21 @@ def pekora():
 
 
 def translate_body(sentence):
-    peko_sentence = peko_lang.peko_main(sentence)
+    peko_sentence = list(map(peko_lang.peko_main, sentence))
     return peko_sentence
 
-def translate_headline(item):
-    peko_item = peko_lang.peko_main(item)
-    return peko_item
+def translate_headline(headline_dict):
+    headline_numbers = [len(lines) for lines in headline_dict.values()]
+    headline_values = sum(headline_dict.values(), [])
+
+    peko_headlines = list(map(peko_lang.peko_main, headline_values))
+
+    peko_head = {}
+    for i, tag in enumerate(list(headline_dict)):
+        peko_head[tag] = peko_headlines[0:headline_numbers[i]]
+        del peko_headlines[0:headline_numbers[i]]
+
+    return peko_head
 
 
 if __name__ == '__main__':

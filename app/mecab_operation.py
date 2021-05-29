@@ -24,10 +24,10 @@ def mecab_dict(text):
         if wclass[0] != 'BOS/EOS':
             # 日本語のとき
             try:
-                word_class.append({"word": word, "part": wclass[0], "subpart1": wclass[1], "subpart2": wclass[2], "type": wclass[4], "form": wclass[5], "origin": wclass[10], "kana": wclass[11]})
+                word_class.append({"word": word, "part": wclass[0], "subpart1": wclass[1], "subpart2": wclass[2], "type": wclass[4], "form": wclass[5].split('-')[0], "origin": wclass[10], "kana": wclass[11]})
             # 英語のとき
             except:
-                word_class.append({"word": word, "part": wclass[0], "subpart1": wclass[1], "subpart2": wclass[2], "type": wclass[4], "form": wclass[5], "origin": "", "kana": ""})
+                word_class.append({"word": word, "part": wclass[0], "subpart1": wclass[1], "subpart2": wclass[2], "type": wclass[4], "form": wclass[5].split('-')[0], "origin": "", "kana": ""})
         node = node.next
     return word_class
 
@@ -36,33 +36,8 @@ class Keitaiso():
 
     def __init__(self, word_class):
         self.word_class = word_class
-        self.LAST = len(word_class) - 1
 
     # Get details of keitaiso
-    def keitaiso_detail(self, word_dict):
-        return word_dict['word'], word_dict['part'], word_dict['type'], word_dict['form'].split('-')[0], word_dict['origin'], word_dict['kana']
-
-
-
-    def get_now(self, now):
-        return self.keitaiso_detail(self.word_class[now])
-
-
-    def get_all(self, now):
-        now_dict = self.word_class[now]
-        if self.LAST == 0:
-            return self.keitaiso_detail(now_dict) + \
-                    ("", "", "", "", "", "") + \
-                    ("", "", "", "", "", "")
-        elif now == 0:
-            return self.keitaiso_detail(now_dict) + \
-                    ("", "", "", "", "", "") + \
-                    self.keitaiso_detail(self.word_class[now+1])
-        elif now == self.LAST:
-            return self.keitaiso_detail(now_dict) + \
-                    self.keitaiso_detail(self.word_class[now-1]) + \
-                    ("", "", "", "", "", "")
-        else:
-            return self.keitaiso_detail(now_dict) + \
-                    self.keitaiso_detail(self.word_class[now-1]) + \
-                    self.keitaiso_detail(self.word_class[now+1])
+    def get(self, index, **bool_dict):
+        keitaiso_list = [val for key, val in self.word_class[index].items() if bool_dict.get(key)]
+        return keitaiso_list

@@ -21,10 +21,9 @@ def remove_sonken(word_class):
 
     for i, word_dict in enumerate(word_class):
 
-        word, part, type, form, origin, kana, \
-        pre_word, pre_part, pre_type, pre_form, pre_origin, pre_kana, \
-        post_word, post_part, post_type, post_form, post_origin, post_kana \
-            = keitaiso.get_all(i)
+        word, part, form, kana = keitaiso.get(i, word=True, part=True, form=True, kana=True)
+        if i != LAST:
+            post_word, post_part, post_type, post_origin, post_kana = keitaiso.get(i+1, word=True, part=True, type=True, origin=True, kana=True)
 
         if skip_flag:
             if kana == action_word:
@@ -42,7 +41,7 @@ def remove_sonken(word_class):
         elif (part == "接頭辞") & (kana in ["オ", "ゴ"]):
 
             if post_part == "動詞":
-                if post_kana in list(sonken_json):
+                if post_kana in sonken_json:
                     natural_origin = sonken_json[post_kana]['常体']
                     natural_type = sonken_json[post_kana]["段-行"]
 
@@ -114,8 +113,7 @@ def remove_sonken(word_class):
             # 連用形のとき、「た」に繋がるため音便あり
             onbin = (False, True) [post_kana in ['タ']]
 
-            sonken_list = list(sonken_json)
-            if kana in sonken_list:
+            if kana in sonken_json:
                 if post_kana in ["アゲル"]:
                     natural_origin = sonken_json[kana+post_kana]['常体']
                     natural_type = sonken_json[kana+post_kana]['段-行']
@@ -144,15 +142,19 @@ def remove_teinei(word_class):
 
     LAST = len(word_class)-1
     keitaiso = Keitaiso(word_class)
-
     sentence = ""
 
     for i, word_dict in enumerate(word_class):
 
-        word, part, type, form, origin, kana, \
-        pre_word, pre_part, pre_type, pre_form, pre_origin, pre_kana, \
-        post_word, post_part, post_type, post_form, post_origin, post_kana \
-            = keitaiso.get_all(i)
+        word, part, form, origin, kana = keitaiso.get(i, word=True, part=True, form=True, origin=True, kana=True)
+        if i != 0:
+            pre_word, pre_part, pre_type, pre_form, pre_origin, pre_kana = keitaiso.get(i-1, word=True, part=True, type=True, form=True, origin=True, kana=True)
+        if i != LAST:
+            post_part, post_origin, post_kana = keitaiso.get(i+1, part=True, origin=True, kana=True)
+
+        if i != LAST:
+            post_word, post_part, post_type, post_origin, post_kana = keitaiso.get(i+1, word=True, part=True, type=True, origin=True, kana=True)
+
 
         if i != 0:
             if (pre_part == '補助記号') & (pre_word not in ["。", "、"]):
@@ -205,6 +207,10 @@ def remove_teinei(word_class):
                     sentence = sentence.rsplit(pre_word, 1)[0] + get_katsuyou("いる", "上一段-ア行", form, onbin)
                     continue
 
+                elif (pre_kana == "アル") & (post_kana in ["ナイ", "ヌ"]):
+                    sentence = sentence.rsplit(pre_word, 1)[0]
+                    continue
+
                 else:
                     sentence = sentence.rsplit(pre_word, 1)[0] + get_katsuyou(pre_origin, pre_type, form, onbin)
                     continue
@@ -213,11 +219,12 @@ def remove_teinei(word_class):
                 if (post_origin in ["か"]) & (post_part == "助詞"):
                     if (pre_origin == "ん") & (pre_part == '助詞'):
                         sentence = sentence[:-1]
-                    continue
+                elif pre_kana in ["ホシー"]:
+                    pass
                 else:
                     # 助動詞「ダ」で、１つ後の形態素に合うものを取得し追加
                     sentence += get_katsuyou("", "助動詞-ダ", form, onbin)
-                    continue
+                continue
 
             elif origin == "ぬ":
                 if pre_form == "未然形":
@@ -296,6 +303,7 @@ def get_katsuyou(origin, type, form, onbin):
         elif not onbin:
             katsuyou = target_katsuyou[form][0]
 
+    print(origin, type, form)
     return katsuyou
 
 def convert_natural_to_peko(word_class):
@@ -313,14 +321,16 @@ def convert_natural_to_peko(word_class):
 
     for i, word_dict in enumerate(word_class):
 
-        word, part, type, form, origin, kana = keitaiso.get_now(i)
+        word, form, kana = keitaiso.get(i, word=True, form=True, kana=True)
 
         if form in ['終止形', "命令形"]:
             if i != LAST:
-                if word_class[i+1]['word'] in ["か", "の"]:
+                if word_class[i+1]['kana'] in ["カ", "ノ"]:
                     sentence += word
                 elif word_class[i+1]['part'] in ["助動詞"]:
                     sentence += word
+                elif (word_class[i+1]['kana'] == "ガ") & (word_class[i+1]['subpart1'] == "接続助詞"):
+                    sentence += word + "けど"
                 else:
                     sentence += normal_peko_translate(word)
             else:
@@ -332,9 +342,13 @@ def convert_natural_to_peko(word_class):
                 sentence += normal_peko_translate(word)
                 continue
 
-        elif (word in ['か', 'の']) & (word_dict['subpart1'] == "終助詞"):
+        elif (kana in ['カ', 'ノ']) & (word_dict['subpart1'] == "終助詞"):
             sentence += "ぺこ"
             continue
+
+        elif (kana == "ガ"):
+            if sentence[-2:] == "けど":
+                continue
 
         sentence += word
 
