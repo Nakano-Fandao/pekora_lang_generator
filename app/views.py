@@ -55,9 +55,9 @@ def pekora():
     return jsonify(peko_json)
 
 
-def translate_body(sentence):
-    peko_sentence = list(map(peko_lang.peko_main, sentence))
-    return peko_sentence
+def translate_body(sentence_list):
+    peko_sentence_list = list(map(peko_lang.peko_main, sentence_list))
+    return peko_sentence_list
 
 def translate_headline(headline_dict):
     headline_numbers = [len(lines) for lines in headline_dict.values()]

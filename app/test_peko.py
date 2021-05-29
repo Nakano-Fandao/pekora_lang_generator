@@ -14,8 +14,8 @@ def test_translate_peko():
         peko_sentence = peko_lang.peko_main(temp_dict['original'])
         if temp_dict['peko'] != peko_sentence:
             print(f"{i}: ×")
-            print(f"Original: {temp_dict['original']}")
-            print(f"Peko: {peko_sentence}")
+            print(f"Translated: {peko_sentence}")
+            print(f"Answer: {temp_dict['peko']}")
         else:
             score += 1
 

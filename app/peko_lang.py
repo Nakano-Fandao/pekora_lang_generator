@@ -1,6 +1,9 @@
 import json
 
 from mecab_operation import mecab_dict, Keitaiso
+from peko_nai import exchange_pekonai
+from insert_peko import add_peko
+from pekora_phrasing import introduce_pekora_phrasing
 
 # Constants
 json_path = './json_folder/'
@@ -21,22 +24,33 @@ def remove_sonken(word_class):
 
     for i, word_dict in enumerate(word_class):
 
-        word, part, form, kana = keitaiso.get(i, word=True, part=True, form=True, kana=True)
-        if i != LAST:
+        word, part, subpart1, form, kana = keitaiso.get(i, word=True, part=True, subpart1=True, form=True, kana=True)
+        if i < LAST:
             post_word, post_part, post_type, post_origin, post_kana = keitaiso.get(i+1, word=True, part=True, type=True, origin=True, kana=True)
+            if i < LAST - 1:
+                postpost_kana = keitaiso.get(i+2, kana=True)[0]
+            else:
+                postpost_kana = None
+        else:
+            post_word, post_part, post_type, post_origin, post_kana \
+                = [None]*5
 
         if skip_flag:
             if kana == action_word:
-                # 連用形のとき、「た」に繋がるため音便あり
+                if katsuyou_flag:
+                    form = katsuyou_flag
+                    katsuyou_flag = False
+
+                # 「た」に繋がるため音便あり
                 onbin = (False, True) [post_kana in ['タ']]
                 sentence += get_katsuyou(natural_origin, natural_type, form, onbin)
                 skip_flag = False
-
             continue
 
         elif katsuyou_flag:
             sentence += get_katsuyou(natural_origin, natural_type, katsuyou_flag, False)
             katsuyou_flag = False
+            continue
 
         elif (part == "接頭辞") & (kana in ["オ", "ゴ"]):
 
@@ -56,62 +70,74 @@ def remove_sonken(word_class):
 
                 elif i < LAST-1:
                     skip_flag = True
-                    if word_class[i+2]['kana'] in ["クダサル", "イタス"]:
-                        action_word = word_class[i+2]['kana']
+                    if postpost_kana in ["クダサル", "イタス"]:
+                        action_word = postpost_kana
 
-                    elif word_class[i+2]['kana'] != 'ニ':
+                    elif postpost_kana != 'ニ':
                         skip_flag = False
                         katsuyou_flag = "命令形"
 
                     elif i < LAST-2:
-                        if (word_class[i+2]['kana'] == "ニ") & (word_class[i+3]['kana'] == "ナル"):
+                        if (postpost_kana == "ニ") & (word_class[i+3]['kana'] == "ナル"):
                             action_word = "ナル"
 
                 continue
 
             elif post_part == "名詞":
 
-                if post_kana in ["カケ", "メシ", "ラン"]:
+                if post_kana in ["カケ", "メシ"]:
                     natural_origin = sonken_json[post_kana]['常体']
                     natural_type = sonken_json[post_kana]['段-行']
                     skip_flag = True
 
-                    if (word_class[i+2]['kana'] == "ニ") & (word_class[i+3]['kana'] == "ナル"):
-                        action_word = "ナル"
+                    if postpost_kana == "ニ":
+                        if i < LAST - 2:
+                            if word_class[i+3]['kana'] == "ナル":
+                                action_word = "ナル"
+                                continue
+                        action_word = "ニ"
+                        katsuyou_flag = "命令形"
 
-                    elif word_class[i+2]['kana'] == "クダサル":
+                    elif postpost_kana == "クダサル":
                         action_word = "クダサル"
 
                     else:
                         action_word = post_word
+                        katsuyou_flag = "命令形"
 
                     continue
 
         elif (part == "名詞") & (kana in ["ゴラン"]):
                     natural_origin = sonken_json[kana[1:]]['常体']
                     natural_type = sonken_json[kana[1:]]['段-行']
-                    skip_flag = True
 
                     if i == LAST:
                         sentence += get_katsuyou(natural_origin, natural_type, "命令形", False)
 
                     elif post_kana == "クダサル":
+                        skip_flag = True
                         action_word = "クダサル"
 
                     elif i < LAST-1:
-                        if (post_kana == "ニ") & (word_class[i+2]['kana'] == "ナル"):
+                        if (post_kana == "ニ") & (postpost_kana == "ナル"):
+                            skip_flag = True
                             action_word = "ナル"
-
-                    else:
-                        skip_flag = False
-                        sentence += get_katsuyou(natural_origin, natural_type, "命令形", False)
+                        elif post_kana == 'ニ':
+                            skip_flag = True
+                            action_word = "ニ"
+                            katsuyou_flag = "命令形"
+                        else:
+                            sentence += get_katsuyou(natural_origin, natural_type, "命令形", False)
 
                     continue
 
         elif part == "動詞":
 
-            # 連用形のとき、「た」に繋がるため音便あり
-            onbin = (False, True) [post_kana in ['タ']]
+            if i == LAST:
+                post_kana = None
+            else:
+                # 「た」に繋がるため音便あり
+                onbin = (False, True) [post_kana in ['タ']]
 
             if kana in sonken_json:
                 if post_kana in ["アゲル"]:
@@ -125,7 +151,7 @@ def remove_sonken(word_class):
 
         elif part == "助動詞":
 
-            # 連用形のとき、「た」に繋がるため音便あり
+            # 「た」に繋がるため音便あり
             onbin = (False, True) [post_kana in ['タ']]
 
             if kana in ["テラッシャル"]:
@@ -146,15 +172,11 @@ def remove_teinei(word_class):
 
     for i, word_dict in enumerate(word_class):
 
-        word, part, form, origin, kana = keitaiso.get(i, word=True, part=True, form=True, origin=True, kana=True)
+        word, part, subpart1, form, origin, kana = keitaiso.get(i, word=True, part=True, subpart1=True, form=True, origin=True, kana=True)
         if i != 0:
-            pre_word, pre_part, pre_type, pre_form, pre_origin, pre_kana = keitaiso.get(i-1, word=True, part=True, type=True, form=True, origin=True, kana=True)
+            pre_word, pre_part, pre_subpart1, pre_type, pre_form, pre_origin, pre_kana = keitaiso.get(i-1, word=True, part=True, subpart1=True, type=True, form=True, origin=True, kana=True)
         if i != LAST:
             post_part, post_origin, post_kana = keitaiso.get(i+1, part=True, origin=True, kana=True)
-
-        if i != LAST:
-            post_word, post_part, post_type, post_origin, post_kana = keitaiso.get(i+1, word=True, part=True, type=True, origin=True, kana=True)
-
 
         if i != 0:
             if (pre_part == '補助記号') & (pre_word not in ["。", "、"]):
@@ -170,7 +192,7 @@ def remove_teinei(word_class):
 
         elif part == '助動詞':
 
-            # 連用形のとき、「た」に繋がるため音便あり
+            # 「た」に繋がるため音便あり
             onbin = (False, True) [post_kana in ['タ']]
 
             if origin == 'ます':
@@ -231,9 +253,9 @@ def remove_teinei(word_class):
                     sentence += get_katsuyou("", "助動詞-ナイ", form, onbin)
                     continue
 
-        elif word_dict['subpart1'] == '終助詞':
+        elif subpart1 == '終助詞':
 
-            if word_class[i-1]['subpart1'] == "終助詞":
+            if pre_subpart1 == "終助詞":
                 continue
 
         sentence += word
@@ -303,7 +325,6 @@ def get_katsuyou(origin, type, form, onbin):
         elif not onbin:
             katsuyou = target_katsuyou[form][0]
 
-    print(origin, type, form)
     return katsuyou
 
 def convert_natural_to_peko(word_class):
@@ -359,21 +380,36 @@ def peko_main(sentence):
     # 尊敬語・謙譲語を除去
     word_class = mecab_dict(sentence)
     no_sonken_sentence = remove_sonken(word_class)
-    print(no_sonken_sentence)
 
     # 丁寧語を除去
     no_sonken_word_class = mecab_dict(no_sonken_sentence)
     natural_sentence = remove_teinei(no_sonken_word_class)
-    print(natural_sentence)
 
     # 常体をぺこら語に変換
-    natural_word_class = mecab_dict(natural_sentence)
-    peko_sentence = convert_natural_to_peko(natural_word_class)
-    print(peko_sentence)
+    # natural_word_class = mecab_dict(natural_sentence)
+    # peko_sentence = convert_natural_to_peko(natural_word_class)
+    # print(peko_sentence)
 
-    return peko_sentence
+    # ないの？　→　ねぇーの？
+    pekonai = exchange_pekonai(natural_sentence)
 
-sentence = """
+    # 文中・文末にぺこを入れる
+    peko_inserted = add_peko(pekonai)
+
+    # 特定のぺこらの言い回しを入れる
+    perfect_peko_sentence = introduce_pekora_phrasing(peko_inserted)
+
+    debug = False
+    if debug:
+        print(no_sonken_sentence)
+        print(natural_sentence)
+        print(pekonai)
+        print(peko_inserted)
+        print(perfect_peko_sentence)
+
+    return perfect_peko_sentence
+
+sentence = """食べられる
 """
 
 if __name__ == '__main__':
