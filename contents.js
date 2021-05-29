@@ -9,7 +9,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 	}
 });
 
-// 
+//
 function see_pekora() {
 
     // A greeting from Pekora
@@ -30,20 +30,20 @@ function scrape() {
     const body_tag = ['p'];
 
     const sentence_dict = {'body': {}, 'headline': {}};
-    
+
     tag_array.forEach(function(tag) {
         if ( body_tag.includes(tag) ) {
             sentence_dict['body'][tag] = [].concat(
-                Array.from(document.getElementsByTagName(tag)).map(item => item.innerText));
+                Array.from(document.getElementsByTagName(tag)).map(item => item.innerHTML));
         } else {
             sentence_dict['headline'][tag] = [].concat(
-                Array.from(document.getElementsByTagName(tag)).map(item => item.innerText));
+                Array.from(document.getElementsByTagName(tag)).map(item => item.innerHTML));
         }
     })
     return sentence_dict
 }
 
-// Ajax 
+// Ajax
 function send_to_py(array) {
 
     const data_to_python = JSON.stringify(array);
@@ -52,7 +52,7 @@ function send_to_py(array) {
       url           : HOST + '/pekora',
       data          : data_to_python,
       contentType   : 'application/json'
-      
+
     })
     .then(
         // Success
@@ -73,7 +73,7 @@ function replace_all(dict) {
         const originals = document.getElementsByTagName(tag);
         const pekos = dict[tag];
         for (let i = 0; i < originals.length; i++) {
-            originals[i].innerText = pekos[i];
+            originals[i].innerHTML = pekos[i];
         }
     })
 }
