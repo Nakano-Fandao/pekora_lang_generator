@@ -5,7 +5,7 @@ import json
 import peko_lang
 
 app = Flask(__name__)
-cors = CORS(app)
+CORS(app)
 
 # トップページにアクセスされたらindex.htmlを表示する
 @app.route('/')
@@ -16,7 +16,7 @@ def index():
 @app.route('/pekora', methods=['POST'])
 def pekora():
     """
-    Expected data format is json of dict below:
+    Expected data format is json of dict:
     {
         'body': {
             'p': []
@@ -33,7 +33,6 @@ def pekora():
             'h6': []
         }
     }
-    }
     """
 
     print('Request received from client')
@@ -44,7 +43,12 @@ def pekora():
 
     # Translate the text one by one to Pekora lang (list → list)
     peko_body = list(map(translate_body, body_dict['p']))
-    peko_head = translate_headline(headline_dict)
+    print("Pekora translation completed for Body sentences")
+
+    peko_head = {}
+    for headline_tag in headline_dict:
+        peko_head[headline_tag] = list(map(translate_headline, headline_dict[headline_tag]))
+    print("Pekora translation completed for Headlines and lists")
 
     peko_dict = {
         'body': {
