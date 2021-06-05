@@ -409,7 +409,7 @@ def peko_main(sentence):
 
     return perfect_peko_sentence
 
-sentence = """食べられる
+sentence = """
 """
 
 if __name__ == '__main__':
