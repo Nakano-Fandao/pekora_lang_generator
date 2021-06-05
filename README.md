@@ -2,6 +2,13 @@
 
 This is a chrome extension that translates the language in your web browser into the spoken language of the holo-live vtuber Usada Pekora (兎田ぺこら).
 
+# How to use this extension
+```bash
+pip install -r requirements.txt
+python ./app/views.py
+```
+And click "LOAD UNPACKED" in the Extensions page.
+After that, you can use it by clicking "Meet ぺこら!"
 
 # Icon used in this extension
 
