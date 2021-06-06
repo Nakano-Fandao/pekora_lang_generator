@@ -3,33 +3,14 @@ import re
 def replace_tags(sentence):
 
     # Create pattern list
-    tag_list = [
-        '<a.*?>',
-        "</a>",
-        '<button.*?>',
-        "</button>",
-        '<cite.*?>',
-        "</cite>",
-        '<code.*?>',
-        "</code>",
-        '<iframe.*?>',
-        "</iframe>",
-        '<img.*?>',
-        "</img>",
-        '<input.*?>',
-        "</input>",
-        '<label.*?>',
-        "</label>",
-        '<select.*?>',
-        "</select>",
-        '<span.*?>',
-        "</span>",
-        '<strong.*?>',
-        "</strong>",
-    ]
+    tag_list = ['a', 'button', 'cite', 'code', 'iframe', 'img', 'input', 'label', 'select', 'span', 'strong']
+
+    pattern_list = \
+        [f'<{tag}.*?>' for tag in tag_list] + \
+        [f"</{tag}>" for tag in tag_list]
 
     # Tag pattern
-    patterns = re.compile(('|').join(tag_list))
+    patterns = re.compile(('|').join(pattern_list))
 
     # Matched tags
     tags = patterns.findall(sentence)
@@ -38,6 +19,7 @@ def replace_tags(sentence):
     replaced_sentence = re.sub(('|').join(tags), "TAG_FLAG", sentence)
 
     return replaced_sentence, tags
+
 
 def return_tags(sentence, tags):
 
