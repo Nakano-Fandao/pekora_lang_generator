@@ -65,7 +65,7 @@ def add_peko(sentence):
 
 
 sentence = """
-<ahref='#1'>ぺーこぺこぺこ</a>
+<ahref='#1'>PythonでぺこらのChrome拡張を作成してくれた方には豪華賞品を送る</a>
 """
 
 if __name__ == "__main__":

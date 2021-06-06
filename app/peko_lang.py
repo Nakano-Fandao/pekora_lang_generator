@@ -4,6 +4,7 @@ from mecab_operation import mecab_dict, Keitaiso
 from peko_nai import exchange_pekonai
 from insert_peko import add_peko
 from pekora_phrasing import introduce_pekora_phrasing
+from tag_operation import replace_tags, return_tags
 
 # Constants
 json_path = './json_folder/'
@@ -34,6 +35,8 @@ def remove_sonken(word_class):
         else:
             post_word, post_part, post_type, post_origin, post_kana \
                 = [None]*5
+
+        print(word, part, form, kana)
 
         if skip_flag:
             if kana == action_word:
@@ -175,6 +178,9 @@ def remove_teinei(word_class):
         word, part, subpart1, form, origin, kana = keitaiso.get(i, word=True, part=True, subpart1=True, form=True, origin=True, kana=True)
         if i != 0:
             pre_word, pre_part, pre_subpart1, pre_type, pre_form, pre_origin, pre_kana = keitaiso.get(i-1, word=True, part=True, subpart1=True, type=True, form=True, origin=True, kana=True)
+        else:
+            sentence += word
+            continue
         if i != LAST:
             post_part, post_origin, post_kana = keitaiso.get(i+1, part=True, origin=True, kana=True)
 
@@ -377,8 +383,11 @@ def convert_natural_to_peko(word_class):
 
 def peko_main(sentence):
 
+    # Replace_tags with "TAG_FLAG"
+    no_tag_sentence, tags = replace_tags(sentence)
+
     # 尊敬語・謙譲語を除去
-    word_class = mecab_dict(sentence)
+    word_class = mecab_dict(no_tag_sentence)
     no_sonken_sentence = remove_sonken(word_class)
 
     # 丁寧語を除去
@@ -397,19 +406,24 @@ def peko_main(sentence):
     peko_inserted = add_peko(pekonai)
 
     # 特定のぺこらの言い回しを入れる
-    perfect_peko_sentence = introduce_pekora_phrasing(peko_inserted)
+    peko_sentence = introduce_pekora_phrasing(peko_inserted)
 
-    debug = False
+    # Placed back tags to the original positions
+    perfect_peko_sentence = return_tags(peko_sentence, tags)
+
+    debug = True
     if debug:
+        print(no_tag_sentence)
         print(no_sonken_sentence)
         print(natural_sentence)
         print(pekonai)
         print(peko_inserted)
+        print(peko_sentence)
         print(perfect_peko_sentence)
 
     return perfect_peko_sentence
 
-sentence = """
+sentence = """おはよう<a href="https://qiita.com/RyBB/items/3f343252b0397e93050e" class="autolink" id="reference-a72c4fedd86be277465c">https://qiita.com/RyBB/items/3f343252b0397e93050e</a>今日は着ますか？
 """
 
 if __name__ == '__main__':
