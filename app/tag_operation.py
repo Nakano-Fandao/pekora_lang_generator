@@ -6,8 +6,26 @@ def replace_tags(sentence):
     tag_list = [
         '<a.*?>',
         "</a>",
-        '<s.*?>',
-        "</s>"
+        '<button.*?>',
+        "</button>",
+        '<cite.*?>',
+        "</cite>",
+        '<code.*?>',
+        "</code>",
+        '<iframe.*?>',
+        "</iframe>",
+        '<img.*?>',
+        "</img>",
+        '<input.*?>',
+        "</input>",
+        '<label.*?>',
+        "</label>",
+        '<select.*?>',
+        "</select>",
+        '<span.*?>',
+        "</span>",
+        '<strong.*?>',
+        "</strong>",
     ]
 
     # Tag pattern
