@@ -10,8 +10,8 @@ This is a chrome extension that translates the language(🇯🇵) in your web br
 
 Have you ever experienced the feeling below?  
 
-:"This website is not funny. I wish I could read it by Pekora's words!!"  
-:"Mails from my boss are scary. I wish Pecora was my boss..."  
+- "This website is not funny. I wish I could read it by Pekora's words!!"  
+- "Mails from my boss are scary. I wish Pecora was my boss..."  
 
 We were usually feeling that way and that is why we have created this wonderful extension. We hope that you will be happy with this extension.  
 
