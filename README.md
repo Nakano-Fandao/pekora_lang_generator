@@ -30,6 +30,7 @@ After that, you can use it by clicking "Meet ぺこら!"
 ## 👀Icon used in this extension
 
 Icons was drawn by [aosatomiru](https://github.com/aosatomiru) who is also the other developer of this project.  
+
 ⚠️The images on this extension (icons, header, etc.) are protected by the copyright which aosatomiru and a third company have and cannot be diverted to some other purpose and reproduced without notice in aosatomiru and the third party.  
 
 
