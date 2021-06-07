@@ -10,8 +10,8 @@ This is a chrome extension that translates the language(🇯🇵) in your web br
 
 Have you ever experienced the feeling below?  
 
->"This website is not funny. I wish I could read it by Pekora's words!!"  
->"Mails from my boss are scary. I wish Pecora was my boss..."  
+:"This website is not funny. I wish I could read it by Pekora's words!!"  
+:"Mails from my boss are scary. I wish Pecora was my boss..."  
 
 We were usually feeling that way and that is why we have created this wonderful extension. We hope that you will be happy with this extension.  
 
@@ -33,4 +33,13 @@ Icons was drawn by [aosatomiru](https://github.com/aosatomiru) who is also the o
 
 ## Developers
 
-![kazuki-nishimura](https://avatars.githubusercontent.com/u/71303399?s=60&v=4) <br> [kazuki-nishimura](https://github.com/kazuki-nishimura) | [aosatomiru](https://github.com/aosatomiru) <br> [aosatomiru](https://avatars.githubusercontent.com/u/84919710?s=80&v=4) 
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/kazuki-nishimura">
+      <img src="https://avatars.githubusercontent.com/u/71303399?s=60&v=4" width="100px;" alt="kazuki-nishimura"/><br />
+      <a href="https://github.com/kazuki-nishimura" title="Code">:octocat: </a></a></td>
+    <td align="center"><a href="https://github.com/aosatomiru">
+      <img src="https://avatars.githubusercontent.com/u/84919710?s=80&v=4" width="100px;" alt="aosatomiru"/><br /><a href="https://github.com/aosatomiru" title="Code">:octocat: </a></a></td>
+  </tr>
+</table>
+
