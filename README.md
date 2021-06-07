@@ -32,5 +32,5 @@ Icons was drawn by [aosatomiru](https://github.com/aosatomiru) who is also the o
 
 
 ## Developers
-| ---- | ---- |
-|![kazuki-nishimura](https://avatars.githubusercontent.com/u/71303399?s=60&v=4)  [kazuki-nishimura](https://github.com/kazuki-nishimura) | [aosatomiru](https://github.com/aosatomiru)  image |
+
+![kazuki-nishimura](https://avatars.githubusercontent.com/u/71303399?s=60&v=4) <br> [kazuki-nishimura](https://github.com/kazuki-nishimura) | [aosatomiru](https://github.com/aosatomiru) <br> [aosatomiru](https://avatars.githubusercontent.com/u/84919710?s=80&v=4) 
