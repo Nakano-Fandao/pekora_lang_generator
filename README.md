@@ -33,5 +33,5 @@ The images on this extension (icons, header, etc.) are protected by the copyrigh
 
 # Developers
 
-[Me](https://github.com/kazuki-nishimura)  
+![kazuki-nishimura](https://avatars.githubusercontent.com/u/71303399?v=4) [Me](https://github.com/kazuki-nishimura)  
 [aosatomiru](https://github.com/aosatomiru)  
