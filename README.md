@@ -37,9 +37,9 @@ Icons was drawn by [aosatomiru](https://github.com/aosatomiru) who is also the o
   <tr>
     <td align="center"><a href="https://github.com/kazuki-nishimura">
       <img src="https://avatars.githubusercontent.com/u/71303399?s=60&v=4" width="100px;" alt="kazuki-nishimura"/><br />
-      <a href="https://github.com/kazuki-nishimura" title="Code">:octocat: </a></a></td>
+      <a href="https://github.com/kazuki-nishimura" title="Code">:octocat: kazuki-nishimura</a></a></td>
     <td align="center"><a href="https://github.com/aosatomiru">
-      <img src="https://avatars.githubusercontent.com/u/84919710?s=80&v=4" width="100px;" alt="aosatomiru"/><br /><a href="https://github.com/aosatomiru" title="Code">:octocat: </a></a></td>
+      <img src="https://avatars.githubusercontent.com/u/84919710?s=80&v=4" width="100px;" alt="aosatomiru"/><br /><a href="https://github.com/aosatomiru" title="Code">:octocat: aosatomiru</a></a></td>
   </tr>
 </table>
 
