@@ -33,6 +33,5 @@ Icons was drawn by [aosatomiru](https://github.com/aosatomiru) who is also the o
 
 ## Developers
 
-![kazuki-nishimura](https://github-readme-stats.vercel.app/api?username=kazuki-nishimura&show_icons=true)
-) [kazuki-nishimura](https://github.com/kazuki-nishimura)  
+![kazuki-nishimura](https://avatars.githubusercontent.com/u/71303399?s=60&v=4) [kazuki-nishimura](https://github.com/kazuki-nishimura)  
 [aosatomiru](https://github.com/aosatomiru)  
