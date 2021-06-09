@@ -15,8 +15,13 @@ def replace_tags(sentence):
     # Matched tags
     tags = patterns.findall(sentence)
 
+    if not tags:
+        return sentence, tags
+
     # Replacing process
     replaced_sentence = re.sub(('|').join(tags), "TAG_FLAG", sentence)
+
+    print(replaced_sentence)
 
     return replaced_sentence, tags
 
@@ -29,7 +34,7 @@ def return_tags(sentence, tags):
     return sentence
 
 
-sentence = """
+sentence = """import文では、読み込むオブジェクト名と、モジュールファイルへのパスを指定します。この例では、module.jsファイルから関数helloをインポートしてます。オブジェクト名は「{}」で囲む必要があることに注意してください。
 """
 
 if __name__ == "__main__":

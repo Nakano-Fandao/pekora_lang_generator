@@ -57,15 +57,13 @@ def add_peko(sentence):
             s_list.append(word0)
             i += 1
 
-        # print(word0, part0, subpart0, form0)
-
     peko_sentence = ''.join(s_list)
 
     return peko_sentence
 
 
 sentence = """
-<ahref='#1'>PythonでぺこらのChrome拡張を作成してくれた方には豪華賞品を送る</a>
+<a href='#1'>PythonでぺこらのChrome拡張を作成してくれた方には豪華賞品を送る</a>
 """
 
 if __name__ == "__main__":

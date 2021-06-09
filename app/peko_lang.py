@@ -1,10 +1,14 @@
 import json
+from icecream import ic
 
 from mecab_operation import mecab_dict, Keitaiso
 from peko_nai import exchange_pekonai
 from insert_peko import add_peko
 from pekora_phrasing import introduce_pekora_phrasing
 from tag_operation import replace_tags, return_tags
+
+# Mode
+debug = False
 
 # Constants
 json_path = './json_folder/'
@@ -35,8 +39,6 @@ def remove_sonken(word_class):
         else:
             post_word, post_part, post_type, post_origin, post_kana \
                 = [None]*5
-
-        print(word, part, form, kana)
 
         if skip_flag:
             if kana == action_word:
@@ -240,6 +242,8 @@ def remove_teinei(word_class):
                     continue
 
                 else:
+                    ic(origin)
+                    ic(pre_origin, pre_type, form, onbin)
                     sentence = sentence.rsplit(pre_word, 1)[0] + get_katsuyou(pre_origin, pre_type, form, onbin)
                     continue
 
@@ -291,7 +295,8 @@ def get_katsuyou(origin, type, form, onbin):
             # 記号のときは、そのまま返す
             return origin
 
-    # katsuyou = ''
+    if debug:
+        ic(origin, type, form, onbin)
 
     if dan in ['五段']:
 
@@ -327,6 +332,8 @@ def get_katsuyou(origin, type, form, onbin):
         if onbin:
             if gyou in ["ダ", "ナイ"]:
                 katsuyou = target_katsuyou[form][1]
+            else:
+                katsuyou = target_katsuyou[form][0]
 
         elif not onbin:
             katsuyou = target_katsuyou[form][0]
@@ -409,9 +416,8 @@ def peko_main(sentence):
     peko_sentence = introduce_pekora_phrasing(peko_inserted)
 
     # Placed back tags to the original positions
-    perfect_peko_sentence = return_tags(peko_sentence, tags)
+    perfect_peko_sentence = return_tags(peko_sentence, tags) if tags else peko_sentence
 
-    debug = True
     if debug:
         print(no_tag_sentence)
         print(no_sonken_sentence)
@@ -423,8 +429,9 @@ def peko_main(sentence):
 
     return perfect_peko_sentence
 
-sentence = """おはよう<a href="https://qiita.com/RyBB/items/3f343252b0397e93050e" class="autolink" id="reference-a72c4fedd86be277465c">https://qiita.com/RyBB/items/3f343252b0397e93050e</a>今日は着ますか？
+sentence = """
 """
 
 if __name__ == '__main__':
+    debug = True
     peko_main(sentence)
