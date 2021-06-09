@@ -3,26 +3,29 @@
     "name": "Meet ぺこら!",
     "description": "Pekora lang translator - an extension for Google Chrome to translate the Japanese texts into Pecora's spoken language",
     "version": "1.0",
-    "background": {
-        "scripts": ["background.js"]
+    "icons": {
+        "16": "./icons/icon16.png",
+        "32": "./icons/icon32.png",
+        "48": "./icons/icon48.png",
+        "128": "./icons/icon128.png"
+    },
+	"browser_action": {
+        "default_icon": "./icons/icon16.png",
+        "default_title": "icon",
+        "default_popup": "popup/popup.html"
     },
     "content_scripts": [{
 		"matches": ["<all_urls>"],
-		"js": ["jquery-3.6.0.min.js", "contents.js"]
+		"js": [
+            "./lib/jquery-3.6.0.min.js",
+            "./content/contents.js"
+        ]
 	}],
     "permissions": [
 		"tabs",
 		"background",
+        "activeTab",
 		"http://*/*",
 		"https://*/*"
-    ],
-    "icons": {
-        "16": "./icons/icon16.png",
-        "48": "./icons/icon48.png"
-    },
-	"browser_action": {
-        "default_icon": "./icons/icon16.png",
-        "default_title": "icon"
-    }
+    ]
 }
-
