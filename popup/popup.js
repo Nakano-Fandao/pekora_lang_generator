@@ -1,19 +1,19 @@
 const carrot = document.getElementById("carrot");
 
-document.addEventListener('click', e => {
+const carrotExpansion = (event) => {
 	carrot.style.display = "inline";
-	carrot.style.left = e.pageX;
-	carrot.style.top = e.pageY;
+	carrot.style.left = event.pageX - 32 + "px";
+	carrot.style.top = event.pageY - 32 + "px";
 	carrot.classList.add("expand");
 
 	setTimeout(() => {
 		carrot.classList.remove("expand");
 		carrot.style.display = "none";
-	}, 500)
-})
+	}, 100)
+}
 
-
-// document.getElementById('pekora_rap').setAttribute("src", imageUrl)
+//画面がクリックされたとき
+document.addEventListener("click",  e => carrotExpansion(e));
 
 
 //ボタンが押されたとき

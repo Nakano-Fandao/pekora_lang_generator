@@ -10,9 +10,15 @@ body {
   border: 0px;
   padding: 0px;
   font-family: sans-serif;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
-/* Cursor */
+img {
+  pointer-events: none;
+}
+
+/*! Cursor ----------------------*/
 * {
   cursor: URL("../images/peko_cursor.png"), auto
 }
@@ -20,7 +26,7 @@ body {
   0% {
     transform: scale(1);
   }
-  50% {
+  40% {
     transform: scale(3);
   }
   100% {
@@ -32,9 +38,11 @@ body {
   animation: carrotExpansion .5s forwards;
 }
 #carrot {
-  display: none;
   position: absolute;
+  display: none;
+  z-index: 1;
 }
+/*! ----------------------*/
 
 div#out-div {
   background-color:#a5c4e7;
@@ -72,7 +80,7 @@ div#img-div {
   width: 260px;
 }
 
-/* リスト */
+/*! リスト ------------------*/
 #headline {
   background-color: #5c9ee7;
   margin: 0px;
@@ -82,11 +90,12 @@ div#img-div {
 }
 
 ul.btn-list {
-  font: 14px/1.6 'arial narrow', sans-serif;
+  font: 16px/1.6 sans-serif;
   list-style: none;
   padding: 0.5em 0.7em;
-  margin: 0px;
+  margin: 3px;
 }
+
 ul.btn-list li {
   position: relative;
   margin-bottom:5px;
@@ -94,17 +103,17 @@ ul.btn-list li {
   line-height: 30px;
   font-size: 15px;
   font-weight: bold;
-  border-bottom: 1px dashed #5c9ee7;
+  height: 32px;
+  display: flex;
+  justify-content: space-between;
 }
-ul.btn-list li:last-child {
-  border:none;
-  margin: 0;
-}
+
 ul.btn-list li:before {
   font-family: FontAwesome;
   content: url("../images/icons/carrot_32.png");
   position: absolute;
   left: 5px;
+  height: 32px;
   font-size: 1.2em;
   -webkit-transition: all 0.8s ease-in-out;
   transition: all 0.8s ease-in-out;
@@ -118,6 +127,8 @@ ul.btn-list li:hover:before {
   transform:rotateY(-360deg);
   color: #9FCDFF;
 }
+
+/* リスト内のaタグ */
 ul.btn-list a {
   text-decoration: none;
   color: #571e4a;
@@ -127,4 +138,9 @@ ul.btn-list a:hover {
 }
 ul.btn-list a:active {
   color: #ff4800;
+}
+
+ul.btn-list div.true-flag {
+  width: 32px;
+  text-align: center;
 }
