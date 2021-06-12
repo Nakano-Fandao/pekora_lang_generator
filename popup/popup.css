@@ -1,7 +1,130 @@
-#greeting {
-    width: 400px;
-    height: 300px;
-    font-size: 16px;
-    background-color: #ffffc4;
-    border: 0;
+body {
+  background-color: white;
+  background-image: radial-gradient(rgb(240, 166, 70) 10%, transparent 20%), radial-gradient(rgb(247, 95, 95) 10%, transparent 20%);
+	background-position: 0 0, 10px 10px;
+	background-size: 20px 20px;
+  margin: 10px;;
+  width: 300px;
+  height: 500px;
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
+  font-family: sans-serif;
+}
+
+/* Cursor */
+* {
+  cursor: URL("../images/peko_cursor.png"), auto
+}
+@keyframes carrotExpansion {
+  0% {
+    transform: scale(1);
   }
+  50% {
+    transform: scale(3);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+.expand {
+  animation: carrotExpansion .5s forwards;
+}
+#carrot {
+  display: none;
+  position: absolute;
+}
+
+div#out-div {
+  background-color:#a5c4e7;
+  width: auto;
+  height: 485px;
+  border: solid 3px #97bae2;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 0px;
+  position: relative;
+}
+
+#title {
+  text-align: center;
+  color: aliceblue;
+  ;
+}
+
+#greeting {
+  text-align: center;
+  font-size: 16px;
+  background-color: #ffffc4;
+  border: 0;
+}
+
+div#img-div {
+  width: auto;
+  height: 170px;
+  margin: 5px;
+  border: solid 2px #5c9ee7;
+  border-radius: 5px;
+}
+
+#pekora_index {
+  width: 260px;
+}
+
+/* リスト */
+#headline {
+  background-color: #5c9ee7;
+  margin: 0px;
+  border: 0px;
+  padding: 5px;
+  padding-bottom: 2px;
+}
+
+ul.btn-list {
+  font: 14px/1.6 'arial narrow', sans-serif;
+  list-style: none;
+  padding: 0.5em 0.7em;
+  margin: 0px;
+}
+ul.btn-list li {
+  position: relative;
+  margin-bottom:5px;
+  padding-left: 50px;
+  line-height: 30px;
+  font-size: 15px;
+  font-weight: bold;
+  border-bottom: 1px dashed #5c9ee7;
+}
+ul.btn-list li:last-child {
+  border:none;
+  margin: 0;
+}
+ul.btn-list li:before {
+  font-family: FontAwesome;
+  content: url("../images/icons/carrot_32.png");
+  position: absolute;
+  left: 5px;
+  font-size: 1.2em;
+  -webkit-transition: all 0.8s ease-in-out;
+  transition: all 0.8s ease-in-out;
+  background-position: bottom;
+}
+ul.btn-list li:hover {
+  background: #9FCDFF;
+}
+ul.btn-list li:hover:before {
+  -webkit-transform:rotateY(-360deg);
+  transform:rotateY(-360deg);
+  color: #9FCDFF;
+}
+ul.btn-list a {
+  text-decoration: none;
+  color: #571e4a;
+}
+ul.btn-list a:hover {
+  color: #ffa32a;
+}
+ul.btn-list a:active {
+  color: #ff4800;
+}

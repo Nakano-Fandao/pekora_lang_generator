@@ -10,11 +10,30 @@
 
     </style>
 </head>
-<body>
-    <p id="greeting">こんぺこ！こんぺこ！こんぺこー！ホロライブ3期生の兎田ぺこらぺこ～！</p>
-    <button id="translation" class='btn'>ぺこら翻訳</button><br>
-    <button id="pointer" class='btn'>ぺこらポインター</button><br>
-    <button id="images" class='btn'>ぺこらイメージ</button>
+<body id="popup">
+
+    <div id="out-div">
+
+        <img id="carrot" src="../images/icons/carrot_32.png" alt="carrot">
+
+        <h1 id="title">ぺこら語<br>じぇねれーた</h1>
+        <!-- <p id="greeting">こんぺこ！こんぺこ！こんぺこー！<br>
+            ホロライブ3期生の兎田ぺこらぺこ～！
+        </p> -->
+
+        <div id="img-div">
+            <img id="pekora_index" src="../images/pekora_index.png" alt="">
+        </div>
+
+        <h4 id="headline">どのぺこらにする？</h4>
+        <ul class="btn-list">
+            <a href="#" id="translation" class='btn'><li>ぺこら翻訳</li></a>
+            <a href="#" id="pointer" class='btn'><li>ぺこらポインター</li></a>
+            <a href="#" id="images" class='btn'><li>ぺこらイメージ</li></a>
+        </ul>
+
+    </div>
+
 
     <script src='../lib/jquery-3.6.0.min.js'></script>
     <script src='popup.js'></script>
