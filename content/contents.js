@@ -18,7 +18,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
 function use_peko_pointer() {
     const style = document.body.style;
-    const imageUrl = chrome.extension.getURL("../images/icons/carrot_16.png");
+    const imageUrl = chrome.extension.getURL("../images/peko_cursor.png");
     style.cursor = "URL('" + imageUrl + "'), auto";
     console.log("Change the pointer");
 }
