@@ -33,6 +33,7 @@
         "images/moving/moving_*",
         "images/pekora_rap/*",
         "images/icons/carrot_*",
-        "images/pekora_index.png"
+        "images/pekora_index.png",
+        "images/peko_cursor.png"
     ]
 }
