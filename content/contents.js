@@ -1,5 +1,4 @@
 'use strict';
-// import { see_pekora } from './peko_translation.js';
 
 const HOST = 'http://127.0.0.1:8080'
 
@@ -7,19 +6,25 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     console.log("Arrive in content.js");
 	if (request.message == "translation") {
 		see_pekora();
+
 	} else if (request.message == "pointer") {
         use_peko_pointer();
+
     } else if (request.message == "images") {
         switch_imgs();
+
     }
 });
 
 function use_peko_pointer() {
-    ;
+    const style = document.body.style;
+    const imageUrl = chrome.extension.getURL("../images/icons/carrot_16.png");
+    style.cursor = "URL('" + imageUrl + "'), auto";
+    console.log("Change the pointer");
 }
 
 function switch_imgs() {
-    ;
+    console.log("Switch images")
 }
 
 //
