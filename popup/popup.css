@@ -21,10 +21,10 @@ img {
 
 /*! Cursor ----------------------*/
 * {
-  cursor: URL("../images/cursors/peko_arrow.png"), auto
+  cursor: URL("../images/cursors/pekora_arrow.png"), auto
 }
 a {
-  cursor: URL("../images/cursors/reverse_carrot_32.png"), pointer
+  cursor: URL("../images/cursors/carrot_pointer.png"), pointer
 }
 @keyframes carrotExpansion {
   0% {
