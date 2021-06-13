@@ -30,10 +30,9 @@
     ],
     "web_accessible_resources": [
         "manifest.json",
-        "images/moving/moving_*",
-        "images/pekora_rap/*",
-        "images/icons/carrot_*",
         "images/pekora_index.png",
-        "images/peko_cursor.png"
+        "images/moving/*.png",
+        "images/icons/*.png",
+        "images/cursors/*.png"
     ]
 }

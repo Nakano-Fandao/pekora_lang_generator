@@ -18,16 +18,20 @@ img {
   pointer-events: none;
 }
 
+
 /*! Cursor ----------------------*/
 * {
-  cursor: URL("../images/peko_cursor.png"), auto
+  cursor: URL("../images/cursors/peko_arrow.png"), auto
+}
+a {
+  cursor: URL("../images/cursors/reverse_carrot_32.png"), pointer
 }
 @keyframes carrotExpansion {
   0% {
     transform: scale(1);
   }
   40% {
-    transform: scale(3);
+    transform: scale(2);
   }
   100% {
     transform: scale(1);
@@ -44,7 +48,7 @@ img {
 }
 /*! ----------------------*/
 
-div#out-div {
+#out-div {
   background-color:#a5c4e7;
   width: auto;
   height: 485px;
@@ -68,7 +72,7 @@ div#out-div {
   border: 0;
 }
 
-div#img-div {
+#img-div {
   width: auto;
   height: 170px;
   margin: 5px;
@@ -89,14 +93,14 @@ div#img-div {
   padding-bottom: 2px;
 }
 
-ul.btn-list {
+ul.action-list {
   font: 16px/1.6 sans-serif;
   list-style: none;
   padding: 0.5em 0.7em;
   margin: 3px;
 }
 
-ul.btn-list li {
+ul.action-list li {
   position: relative;
   margin-bottom:5px;
   padding-left: 50px;
@@ -106,9 +110,11 @@ ul.btn-list li {
   height: 32px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+
 }
 
-ul.btn-list li:before {
+ul.action-list li:before {
   font-family: FontAwesome;
   content: url("../images/icons/carrot_32.png");
   position: absolute;
@@ -119,28 +125,59 @@ ul.btn-list li:before {
   transition: all 0.8s ease-in-out;
   background-position: bottom;
 }
-ul.btn-list li:hover {
+ul.action-list li:hover {
   background: #9FCDFF;
 }
-ul.btn-list li:hover:before {
+ul.action-list li:hover:before {
   -webkit-transform:rotateY(-360deg);
   transform:rotateY(-360deg);
   color: #9FCDFF;
 }
 
 /* リスト内のaタグ */
-ul.btn-list a {
+ul.action-list a {
   text-decoration: none;
   color: #571e4a;
 }
-ul.btn-list a:hover {
+ul.action-list a:hover {
   color: #ffa32a;
 }
-ul.btn-list a:active {
+ul.action-list a:active {
   color: #ff4800;
 }
 
-ul.btn-list div.true-flag {
-  width: 32px;
-  text-align: center;
+ul.action-list img.almond {
+  height: 16px;
+}
+
+/* Almond関係 -------------------- */
+ul.action-list div {
+  position:relative;
+}
+.almond-description {
+  width: 150px;
+  padding: 10px;
+  font-size: 10px;
+  margin: -30px 0 0;
+  background-color:#666;
+  color:#fff;
+  position: absolute;
+  right: -15px;
+  top: -90%;
+  text-align: end;
+}
+.almond-description:before {
+  right: 8%;
+  top: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  border-color: rgba(102, 102, 102, 0);
+  border-top-color: #5e5e5e;
+  border-width: 8px;
+}
+.almond {
+  z-index: 2;
 }

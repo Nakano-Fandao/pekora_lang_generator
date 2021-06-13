@@ -4,26 +4,40 @@ const HOST = 'http://127.0.0.1:8080'
 
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     console.log("Arrive in content.js");
-	if (request.message == "translation") {
+    const action = request.action
+    const flag = request.flag
+	if (action == "translation") {
 		see_pekora();
 
-	} else if (request.message == "pointer") {
-        use_peko_pointer();
+	} else if (action == "cursor") {
+        (flag) ? use_pekora_cursor() : remove_pekora_cursor();
 
-    } else if (request.message == "images") {
+    } else if (action == "images") {
         switch_imgs();
 
     }
 });
 
-function use_peko_pointer() {
-    const style = document.body.style;
-    const imageUrl = chrome.extension.getURL("../images/peko_cursor.png");
-    style.cursor = "URL('" + imageUrl + "'), auto";
-    console.log("Change the pointer");
+const use_pekora_cursor = () => {
+    const arrowUrl = chrome.extension.getURL("../images/cursors/peko_arrow.png");
+    const pointerUrl = chrome.extension.getURL("../images/cursors/reverse_carrot_32.png");
+
+    // 通常カーソル
+    $("body").css("cursor", "URL('" + arrowUrl + "'), auto");
+
+    // なんとかhover時カーソル
+    const pointer_tag = ["a", "button", "label a"];
+    pointer_tag.map( tag => $(tag).css("cursor", "URL('" + pointerUrl + "'), pointer") );
+
+    console.log("Activate Pekora cursor");
 }
 
-function switch_imgs() {
+const remove_pekora_cursor = () => {
+    $("body").css("cursor", "auto");
+    console.log("Deactivate Pekora cursor");
+}
+
+const switch_imgs = () => {
     console.log("Switch images")
 }
 
