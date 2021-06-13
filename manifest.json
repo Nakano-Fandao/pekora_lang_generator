@@ -31,7 +31,6 @@
     "web_accessible_resources": [
         "manifest.json",
         "images/pekora_index.png",
-        "images/moving/*.png",
         "images/icons/*.png",
         "images/cursors/*.png"
     ]
