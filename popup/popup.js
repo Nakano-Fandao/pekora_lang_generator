@@ -1,6 +1,6 @@
+// にんじんを膨らませる操作
 const carrot = document.getElementById("carrot");
 
-// にんじんを膨らませる操作
 const carrotExpansion = (event) => {
 
 	// にんじんをマウスのにんじんの場所にもってくる
@@ -18,25 +18,65 @@ const carrotExpansion = (event) => {
 	}, 100)
 }
 
+const giveAlmond = (almond) => {
+	almond.src = "../images/icons/almond.png";
+	almond.alt = "almond";
+	almond.parentElement.getElementsByClassName('almond-description')[0].innerText = "あーもんどーあーもんどー！！"
+}
+
+const loseAlmond = (almond) => {
+	almond.src = "../images/icons/no_almond.png";
+	almond.alt = "no-almond";
+	almond.parentElement.getElementsByClassName('almond-description')[0].innerText = "アーモンドちょうだいぺこー！！"
+}
+
+// popup読み込み時に、アーモンド初期化
+const initializeAlmond = () => {
+
+	// actionを登録
+	const action = "almond";
+
+	console.log(action + " initialized");
+
+	// 対象のタブのidを取得したい
+	chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+
+		return new Promise( (resove, reject) => {
+
+			// 取得したタブid(tabs[0].id)を利用してsendMessageする
+			chrome.tabs.sendMessage(tabs[0].id, {action: action, flag: NaN}, response => {
+				console.log("Return to popup.js")
+
+				if (action === "almond") {
+					// responseがtrueであれば、アーモンドを色付け
+					const almonds = document.getElementsByClassName('almond');
+					for (let i = 0; i < almonds.length; i++) {
+						(response.data[i] === true) ? giveAlmond(almonds[i]) : loseAlmond(almonds[i])
+					}
+				}
+				Resolve("Initialization successful");
+			})
+
+		})
+
+	})
+}
+
+
 // アーモンドの操作
 const operateAlmond = (elem) => {
 
 	// altがno-almondなら、flagはtrue
-	const almond_tag = $(elem).parent().find(".almond")[0];
-	const almond_description = $(elem).parent().find(".almond-description")[0];
-	const almond_flag = (almond_tag.alt === "no-almond") ? true : false
+	const almond = $(elem).parent().find(".almond")[0];
+	const almond_flag = (almond.alt === "no-almond") ? true : false
 
 	if (almond_flag === true) {
-		almond_tag.src = "../images/icons/almond.png";
-		almond_tag.alt = "almond";
+		giveAlmond(almond);
 		console.log("Almond was given")
-		almond_description.innerText = "あーもんどーあーもんどー！！"
 
 	} else {
-		almond_tag.src = "../images/icons/no_almond.png";
-		almond_tag.alt = "no-almond";
+		loseAlmond(almond);
 		console.log("Almond was lost")
-		almond_description.innerText = "アーモンドちょうだいぺこー！！"
 	}
 
 	return almond_flag
@@ -72,6 +112,9 @@ const displayAlmondBalloon = () => {
 
 
 // Main
+
+// アーモンドの初期化
+initializeAlmond();
 
 // アーモンドの吹き出し登録
 displayAlmondBalloon();
