@@ -2,25 +2,45 @@
 
 const HOST = 'http://127.0.0.1:8080'
 
-chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-    console.log("Arrive in content.js");
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+
     const action = request.action
     const flag = request.flag
-	if (action == "translation") {
-		see_pekora();
+    let response = [];
 
-	} else if (action == "cursor") {
-        (flag) ? use_pekora_cursor() : remove_pekora_cursor();
+    console.log("Arrive in content.js for " + action);
 
-    } else if (action == "images") {
-        switch_imgs();
+    switch (action) {
+        case "translation":
+            see_pekora();
+            break;
 
+        case "cursor":
+            (flag) ? use_pekora_cursor() : remove_pekora_cursor();
+            break;
+
+        case "images":
+            switch_imgs();
+            break;
+
+        case "almond":
+            response = get_almond_status();
+            break;
+
+        default:
+            ;
     }
+
+    sendResponse(response);
+    console.log("Response sent");
+
+    return true;
 });
 
+
 const use_pekora_cursor = () => {
-    const arrowUrl = chrome.extension.getURL("../images/cursors/peko_arrow.png");
-    const pointerUrl = chrome.extension.getURL("../images/cursors/reverse_carrot_32.png");
+    const arrowUrl = chrome.extension.getURL("../images/cursors/pekora_arrow.png");
+    const pointerUrl = chrome.extension.getURL("../images/cursors/carrot_pointer.png");
 
     // 通常カーソル
     $("body").css("cursor", "URL('" + arrowUrl + "'), auto");
@@ -39,6 +59,13 @@ const remove_pekora_cursor = () => {
 
 const switch_imgs = () => {
     console.log("Switch images")
+}
+
+// 機能の使用状況を把握
+const get_almond_status = () => {
+    const almond_status = [false, true, true]
+    console.log("Check almond status")
+    return almond_status
 }
 
 //

@@ -165,6 +165,7 @@ ul.action-list div {
   right: -15px;
   top: -90%;
   text-align: end;
+  display: none;
 }
 .almond-description:before {
   right: 8%;

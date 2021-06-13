@@ -41,27 +41,27 @@ const initializeAlmond = () => {
 	// 対象のタブのidを取得したい
 	chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
 
-		return new Promise( (resove, reject) => {
+		return new Promise( (resolve, reject) => {
 
 			// 取得したタブid(tabs[0].id)を利用してsendMessageする
 			chrome.tabs.sendMessage(tabs[0].id, {action: action, flag: NaN}, response => {
-				console.log("Return to popup.js")
+
+				console.log("Return to popup.js after initializing almonds")
 
 				if (action === "almond") {
 					// responseがtrueであれば、アーモンドを色付け
 					const almonds = document.getElementsByClassName('almond');
 					for (let i = 0; i < almonds.length; i++) {
-						(response.data[i] === true) ? giveAlmond(almonds[i]) : loseAlmond(almonds[i])
+						(response[i] === true) ? giveAlmond(almonds[i]) : loseAlmond(almonds[i])
 					}
 				}
-				Resolve("Initialization successful");
+				console.log("Initialization successful");
 			})
 
 		})
 
 	})
 }
-
 
 // アーモンドの操作
 const operateAlmond = (elem) => {
@@ -84,9 +84,6 @@ const operateAlmond = (elem) => {
 
 // アーモンドの吹き出し操作
 const displayAlmondBalloon = () => {
-
-	// 吹き出しを非表示にする
-	$('.almond-description').hide();
 
 	// almondのdivを取得し、ひとつずつイベントリスナーを登録
 	const almond_divs = document.getElementsByClassName("almond-div");
@@ -136,6 +133,8 @@ $('.action').click(function(event){
 	// 対象のタブのidを取得したい
 	chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
 		// 取得したタブid(tabs[0].id)を利用してsendMessageする
-		chrome.tabs.sendMessage(tabs[0].id, {action: action, flag: flag})
+		chrome.tabs.sendMessage(tabs[0].id, {action: action, flag: flag}, response => {
+			console.log("Return to popup.js after " + action);
+		})
 	})
 });
