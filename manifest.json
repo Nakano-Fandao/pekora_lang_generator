@@ -18,7 +18,7 @@
 		"matches": ["<all_urls>"],
 		"js": [
             "./lib/jquery-3.6.0.min.js",
-            "./content/contents.js"
+            "./contents/main.js"
         ]
 	}],
     "permissions": [
@@ -30,8 +30,10 @@
     ],
     "web_accessible_resources": [
         "manifest.json",
+        "contents/modules/*.js",
         "images/pekora_index.png",
         "images/icons/*.png",
-        "images/cursors/*.png"
+        "images/cursors/*.png",
+        "images/hopping.gif"
     ]
 }
