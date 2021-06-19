@@ -36,13 +36,17 @@ function send_to_py(array) {
             const result = JSON.parse(data);
             replace_all(result.body);
             replace_all(result.headline);
-            console.log("Translation completed");
+            import("../modules/loading.js").then( module => {
+                module.removeLoading();
+                console.log("Translation completed");
+            } )
         },
         // Failure
-        error => alert('翻訳失敗ぺこ！！')
-    );
-    import("../modules/loading.js")
-        .then( module => module.removeLoading() );
+        error => {
+            alert('翻訳失敗ぺこ！！')
+            import("../modules/loading.js").then( module => module.removeLoading() )
+        }
+    );;
 
 }
 

@@ -9,11 +9,13 @@ const use_pekora_cursor = () => {
     const pointer_tag = ["a", "button", "label a"];
     pointer_tag.map( tag => $(tag).css("cursor", "URL('" + pointerUrl + "'), pointer") );
 
+    import("../modules/loading.js").then( module => module.removeLoading() );
     console.log("Activate Pekora cursor");
 }
 
 const remove_pekora_cursor = () => {
     $("body").css("cursor", "auto");
+    import("../modules/loading.js").then( module => module.removeLoading() );
     console.log("Deactivate Pekora cursor");
 }
 
