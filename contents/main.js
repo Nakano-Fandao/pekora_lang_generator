@@ -14,13 +14,13 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
     switch (action) {
         case "translation":
-            read_pekora(); break;
+            readPekora(); break;
         case "cursor":
-            use_pekora(flag); break;
+            usePekora(flag); break;
         case "images":
-            see_pekora(); break;
+            seePekora(); break;
         case "almond":
-            response = get_almond_status(); break;
+            response = getAlmondStatus(); break;
         default:
             ;
     }
@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 });
 
 //
-const read_pekora = () => {
+const readPekora = () => {
     // A greeting from Pekora
     console.log("こんぺこ！こんぺこ！こんぺこー！ホロライブ3期生の兎田ぺこらぺこ～！");
 
@@ -40,20 +40,20 @@ const read_pekora = () => {
     import("./modules/translation.js").then( module => module.translate() );
 }
 
-const use_pekora = (flag) => {
+const usePekora = (flag) => {
     import("./modules/loading.js").then( module => module.displayLoading() );
     import("./modules/cursor.js").then( module => {
-            (flag) ? module.use_pekora_cursor() : module.remove_pekora_cursor();
+            (flag) ? module.usePekora_cursor() : module.remove_pekora_cursor();
         })
 }
 
-const see_pekora = () => {
+const seePekora = () => {
     import("./modules/loading.js").then( module => module.displayLoading() );
     import("./modules/switch.js").then( module => module.switch_imgs() );
 }
 
 // 機能の使用状況を把握
-const get_almond_status = () => {
+const getAlmondStatus = () => {
     const almond_status = [false, true, true];
     console.log("Check almond status");
     return almond_status;
