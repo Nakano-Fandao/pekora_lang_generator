@@ -35,47 +35,38 @@ const read_pekora = () => {
     console.log("こんぺこ！こんぺこ！こんぺこー！ホロライブ3期生の兎田ぺこらぺこ～！");
 
     // Display the loading gif
-    import("./modules/loading.js")
-    .then( module => module.displayLoading() )
-
+    import("./modules/loading.js").then( module => module.displayLoading() );
     // Translate
-    import("./modules/translation.js")
-        .then( module => module.translate() )
+    import("./modules/translation.js").then( module => module.translate() );
 }
 
 const use_pekora = (flag) => {
-    import("./modules/loading.js")
-        .then( module => module.displayLoading() )
-    import("./modules/cursor.js")
-        .then( module => {
+    import("./modules/loading.js").then( module => module.displayLoading() );
+    import("./modules/cursor.js").then( module => {
             (flag) ? module.use_pekora_cursor() : module.remove_pekora_cursor();
         })
 }
 
 const see_pekora = () => {
-    import("./modules/loading.js")
-        .then( module => module.displayLoading() )
-    import("./modules/switch.js")
-        .then( module => module.switch_imgs() )
+    import("./modules/loading.js").then( module => module.displayLoading() );
+    import("./modules/switch.js").then( module => module.switch_imgs() );
 }
 
 // 機能の使用状況を把握
 const get_almond_status = () => {
-    const almond_status = [false, true, true]
-    console.log("Check almond status")
-    return almond_status
+    const almond_status = [false, true, true];
+    console.log("Check almond status");
+    return almond_status;
 }
 
 const addStylesheet = () => {
 
-    // 既に追加済みの場合は表示して戻る;
-    if ( document.getElementById("loading-css") !== null ) { return };
-
-    const css_link = chrome.extension.getURL("contents/css/loading.css");
+    // 既に追加済みの場合は戻る;
+    if (document.getElementById("loading-css") !== null) { return };
 
     const link_tag = document.createElement('link');
     link_tag.rel = "stylesheet";
-    link_tag.href = css_link;
+    link_tag.href = chrome.extension.getURL("contents/css/loading.css");
     link_tag.id = "loading-css";
 
     document.getElementsByTagName('head')[0].appendChild(link_tag);
