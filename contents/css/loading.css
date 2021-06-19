@@ -6,6 +6,7 @@
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 20;
     opacity: 0.8;
     background-color: #fff;
 }
@@ -20,6 +21,7 @@
     margin: 0;
     border: 0;
     padding: 0;
+    opacity: 1;
     background: URL("chrome-extension://__MSG_@@extension_id__/images/loading/hopping.gif") center center no-repeat;
 }
 
