@@ -36,15 +36,15 @@ function send_to_py(array) {
             const result = JSON.parse(data);
             replace_all(result.body);
             replace_all(result.headline);
-            import("../modules/loading.js").then( module => {
-                module.removeLoading();
-                console.log("Translation completed");
-            } )
+            import("./loading.js").then( module => module.removeLoading() );
+            import("./almond_status.js")
+                .then( module => module.updateAlmondStatus("translation", true) );
+            console.log("Translation completed");
         },
         // Failure
         error => {
             alert('翻訳失敗ぺこ！！')
-            import("../modules/loading.js").then( module => module.removeLoading() )
+            import("./loading.js").then( module => module.removeLoading() )
         }
     );;
 

@@ -1,22 +1,26 @@
-const use_pekora_cursor = () => {
+const usePekoraCursor = () => {
     const arrowUrl = chrome.extension.getURL("../images/cursors/pekora_arrow.png");
     const pointerUrl = chrome.extension.getURL("../images/cursors/carrot_pointer.png");
 
     // 通常カーソル
     $("body").css("cursor", "URL('" + arrowUrl + "'), auto");
 
-    // なんとかhover時カーソル
+    // なにかにhover時カーソル
     const pointer_tag = ["a", "button", "label a"];
     pointer_tag.map( tag => $(tag).css("cursor", "URL('" + pointerUrl + "'), pointer") );
 
-    import("../modules/loading.js").then( module => module.removeLoading() );
+    import("./loading.js").then( module => module.removeLoading() );
+    import("./almond_status.js")
+        .then( module => module.updateAlmondStatus("cursor", true) );
     console.log("Activate Pekora cursor");
 }
 
-const remove_pekora_cursor = () => {
+const removePekoraCursor = () => {
     $("body").css("cursor", "auto");
-    import("../modules/loading.js").then( module => module.removeLoading() );
+    import("./loading.js").then( module => module.removeLoading() );
+    import("./almond_status.js")
+        .then( module => module.updateAlmondStatus("cursor", false) );
     console.log("Deactivate Pekora cursor");
 }
 
-export {use_pekora_cursor, remove_pekora_cursor};
+export {usePekoraCursor, removePekoraCursor};

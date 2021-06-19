@@ -20,12 +20,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         case "images":
             seePekora(); break;
         case "almond":
-            response = getAlmondStatus(); break;
+            getAlmondStatus(sendResponse); break;
         default:
             ;
     }
 
-    sendResponse(response);
     return true;
 });
 
@@ -33,7 +32,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 const readPekora = () => {
     // A greeting from Pekora
     console.log("こんぺこ！こんぺこ！こんぺこー！ホロライブ3期生の兎田ぺこらぺこ～！");
-
     // Display the loading gif
     import("./modules/loading.js").then( module => module.displayLoading() );
     // Translate
@@ -43,7 +41,7 @@ const readPekora = () => {
 const usePekora = (flag) => {
     import("./modules/loading.js").then( module => module.displayLoading() );
     import("./modules/cursor.js").then( module => {
-            (flag) ? module.usePekora_cursor() : module.remove_pekora_cursor();
+            (flag) ? module.usePekoraCursor() : module.removePekoraCursor();
         })
 }
 
@@ -53,10 +51,12 @@ const seePekora = () => {
 }
 
 // 機能の使用状況を把握
-const getAlmondStatus = () => {
-    const almond_status = [false, true, true];
-    console.log("Check almond status");
-    return almond_status;
+const getAlmondStatus = (sendResponse) => {
+    import("./modules/almond_status.js").then( module => {
+        const almond_status = module.checkAlmondStatus();
+        console.log(almond_status);
+        sendResponse(almond_status);
+    });
 }
 
 const addStylesheet = () => {
