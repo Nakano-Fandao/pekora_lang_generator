@@ -27,12 +27,14 @@ const initializeAlmond = () => {
 			chrome.tabs.sendMessage(tabs[0].id, {action: action, flag: NaN}, response => {
 
 				console.log("Return to popup.js after initializing almonds");
+				console.log(response);
 
 				if (action === "almond") {
 					// responseがtrueであれば、アーモンドを色付け
 					const almonds = document.getElementsByClassName('almond');
+					console.log(almonds);
 					for (let i = 0; i < almonds.length; i++) {
-						(response[i] === true) ? giveAlmond(almonds[i]) : loseAlmond(almonds[i])
+						(response[i] === true) ? giveAlmond(almonds[i]) : loseAlmond(almonds[i]);
 					}
 				}
 				console.log("Initialization successful");
