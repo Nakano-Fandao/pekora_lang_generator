@@ -35,6 +35,7 @@
         "manifest.json",
         "contents/modules/*.js",
         "contents/css/*.css",
+        "popup/modules/*.js",
         "images/pekora_index.png",
         "images/icons/*.png",
         "images/cursors/*.png",
