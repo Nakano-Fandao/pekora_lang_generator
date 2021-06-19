@@ -46,7 +46,7 @@ const initializeAlmond = () => {
 			// 取得したタブid(tabs[0].id)を利用してsendMessageする
 			chrome.tabs.sendMessage(tabs[0].id, {action: action, flag: NaN}, response => {
 
-				console.log("Return to popup.js after initializing almonds")
+				console.log("Return to popup.js after initializing almonds");
 
 				if (action === "almond") {
 					// responseがtrueであれば、アーモンドを色付け
@@ -68,18 +68,18 @@ const operateAlmond = (elem) => {
 
 	// altがno-almondなら、flagはtrue
 	const almond = $(elem).parent().find(".almond")[0];
-	const almond_flag = (almond.alt === "no-almond") ? true : false
+	const almond_flag = (almond.alt === "no-almond") ? true : false;
 
 	if (almond_flag === true) {
 		giveAlmond(almond);
-		console.log("Almond was given")
+		console.log("Almond was given");
 
 	} else {
 		loseAlmond(almond);
-		console.log("Almond was lost")
+		console.log("Almond was lost");
 	}
 
-	return almond_flag
+	return almond_flag;
 }
 
 // アーモンドの吹き出し操作
@@ -91,17 +91,16 @@ const displayAlmondBalloon = () => {
 
 		// マウスエンターで、吹き出しを出す
 		almond_div.addEventListener('mouseenter', () => {
-			const description = almond_div.lastElementChild
+			const description = almond_div.lastElementChild;
 			description.style.display = "block";
-
 			// 500ms後から、透明度を1000msかけて、1から0に変化させる
 			setTimeout(() => {
-				description.animate({opacity: [1, 0]}, 1000)
+				description.animate({opacity: [1, 0]}, 1000);
 			}, 500);
 
 			// 1500ms後（透明度が0になるとき）に吹き出しを非表示にする
 			setTimeout(() => {
-				description.style.display = "none"
+				description.style.display = "none";
 			}, 1500);
 		})
 	});
