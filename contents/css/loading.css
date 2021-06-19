@@ -1,0 +1,31 @@
+#loading {
+    display: table;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+    background-color: #fff;
+}
+
+#loading .loading-div {
+    position: fixed;
+    top: 100px;
+    left: -webkit-calc(50% - 500px);
+    left: calc(50% - 500px);
+    width: 1000px;
+    height: 500px;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    background: URL("chrome-extension://__MSG_@@extension_id__/images/loading/hopping.gif") center center no-repeat;
+}
+
+#loading .loading-msg {
+    position: fixed;
+    left: -webkit-calc(50% - 413.5px);
+    left: calc(50% - 413.5px);
+    padding-top: 400px;
+}

@@ -1,3 +1,5 @@
+const HOST = 'http://127.0.0.1:8080'
+
 // Scrape sentences in web
 const scrape = () => {
     const tag_array = ['p', 'li', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
@@ -27,14 +29,18 @@ function send_to_py(array) {
       url           : HOST + '/pekora',
       data          : data_to_python,
       contentType   : 'application/json'
-
     })
     .then(
         // Success
         data => {
             const result = JSON.parse(data);
             replace_all(result.body);
-            replace_all(result.headline)
+            replace_all(result.headline);
+            import("../modules/loading.js")
+                .then( module => {
+                    module.removeLoading();
+                    console.log("Translation completed");
+                })
         },
         // Failure
         error => alert('翻訳失敗ぺこ！！')

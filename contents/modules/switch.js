@@ -1,5 +1,5 @@
 const switch_imgs = () => {
-    console.log("Switch images")
+    console.log("Switching images completed")
 }
 
 export {switch_imgs};
