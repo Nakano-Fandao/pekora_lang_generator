@@ -68,11 +68,15 @@ const get_almond_status = () => {
 
 const addStylesheet = () => {
 
+    // 既に追加済みの場合は表示して戻る;
+    if ( document.getElementById("loading-css") !== null ) { return };
+
     const css_link = chrome.extension.getURL("contents/css/loading.css");
 
     const link_tag = document.createElement('link');
     link_tag.rel = "stylesheet";
     link_tag.href = css_link;
+    link_tag.id = "loading-css";
 
     document.getElementsByTagName('head')[0].appendChild(link_tag);
 }
