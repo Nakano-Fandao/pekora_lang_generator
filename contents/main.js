@@ -1,6 +1,6 @@
 'use strict';
 
-const HOST = 'http://127.0.0.1:8080'
+const HOST = 'http://127.0.0.1:8080';
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             readPekora(); break;
         case "cursor":
             usePekora(flag); break;
-        case "images":
+        case "image":
             seePekora(); break;
         case "almond":
             getAlmondStatus(sendResponse); break;
@@ -42,12 +42,14 @@ const usePekora = (flag) => {
     import("./modules/loading.js").then( module => module.displayLoading() );
     import("./modules/cursor.js").then( module => {
             (flag) ? module.usePekoraCursor() : module.removePekoraCursor();
-        })
+        });
 }
 
 const seePekora = () => {
     import("./modules/loading.js").then( module => module.displayLoading() );
-    import("./modules/switch.js").then( module => module.switch_imgs() );
+    import("./modules/switch.js").then( module => {
+        (flag) ? module.switchImgs() : module.returnOriginalImgs();
+    })
 }
 
 // 機能の使用状況を把握
