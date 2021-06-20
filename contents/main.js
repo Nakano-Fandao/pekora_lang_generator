@@ -18,7 +18,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         case "cursor":
             usePekora(flag); break;
         case "image":
-            seePekora(); break;
+            seePekora(flag); break;
         case "almond":
             getAlmondStatus(sendResponse); break;
         default:
@@ -45,7 +45,7 @@ const usePekora = (flag) => {
         });
 }
 
-const seePekora = () => {
+const seePekora = (flag) => {
     import("./modules/loading.js").then( module => module.displayLoading() );
     import("./modules/switch.js").then( module => {
         (flag) ? module.switchImgs() : module.returnOriginalImgs();
@@ -66,10 +66,15 @@ const addStylesheet = () => {
     // 既に追加済みの場合は戻る;
     if (document.getElementById("loading-css") !== null) { return };
 
-    const link_tag = document.createElement('link');
-    link_tag.rel = "stylesheet";
-    link_tag.href = chrome.extension.getURL("contents/css/loading.css");
-    link_tag.id = "loading-css";
+    const stylesheets = ["loading", "image"];
 
-    document.getElementsByTagName('head')[0].appendChild(link_tag);
+    stylesheets.map( css_name => {
+        const link_tag = document.createElement('link');
+        link_tag.rel = "stylesheet";
+        link_tag.href = chrome.extension.getURL("contents/css/"+css_name+".css");
+        link_tag.id = css_name + "-css";
+        document.getElementsByTagName('head')[0].appendChild(link_tag);
+    })
+
+
 }

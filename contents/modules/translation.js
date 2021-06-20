@@ -46,8 +46,8 @@ function send_to_py(array) {
             alert('翻訳失敗ぺこ！！')
             import("./loading.js").then( module => module.removeLoading() )
         }
-    );;
-
+    )
+    .catch( e => console.trace(e));
 }
 
 // Replace sentences in web with pekora lang

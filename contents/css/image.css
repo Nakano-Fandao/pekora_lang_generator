@@ -1,0 +1,9 @@
+.ad-cover {
+    position: relative;
+}
+.ad-cover img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+}

@@ -1,11 +1,13 @@
+const icon_dir = chrome.extension.getURL("../images/icons/")
+
 const giveAlmond = (almond) => {
-	almond.src = "../images/icons/almond.png";
+	almond.src = icon_dir + "almond.png";;
 	almond.alt = "almond";
 	almond.parentElement.getElementsByClassName('almond-description')[0].innerText = "あーもんどーあーもんどー！！"
 }
 
 const loseAlmond = (almond) => {
-	almond.src = "../images/icons/no_almond.png";
+	almond.src = icon_dir + "no_almond.pn";
 	almond.alt = "no-almond";
 	almond.parentElement.getElementsByClassName('almond-description')[0].innerText = "アーモンドちょうだいぺこー！！"
 }

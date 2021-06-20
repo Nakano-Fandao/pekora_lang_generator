@@ -1,6 +1,7 @@
 const usePekoraCursor = () => {
-    const arrowUrl = chrome.extension.getURL("../images/cursors/pekora_arrow.png");
-    const pointerUrl = chrome.extension.getURL("../images/cursors/carrot_pointer.png");
+    const cursor_dir = chrome.extension.getURL("../images/cursors/")
+    const arrowUrl = cursor_dir + "pekora_arrow.png";
+    const pointerUrl = cursor_dir + "carrot_pointer.png";
 
     // 通常カーソル
     $("body").css("cursor", "URL('" + arrowUrl + "'), auto");
