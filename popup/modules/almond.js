@@ -7,7 +7,7 @@ const giveAlmond = (almond) => {
 }
 
 const loseAlmond = (almond) => {
-	almond.src = icon_dir + "no_almond.pn";
+	almond.src = icon_dir + "no_almond.png";
 	almond.alt = "no-almond";
 	almond.parentElement.getElementsByClassName('almond-description')[0].innerText = "アーモンドちょうだいぺこー！！"
 }
