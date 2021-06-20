@@ -21,7 +21,8 @@
             "./contents/main.js"
         ],
         "css": [
-            "./contents/css/loading.css"
+            "./contents/css/loading.css",
+            "./contents/css/image.css"
         ]
 	}],
     "permissions": [
