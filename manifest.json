@@ -40,6 +40,7 @@
         "images/pekora_index.png",
         "images/icons/*.png",
         "images/cursors/*.png",
-        "images/loading/*.gif"
+        "images/loading/*.gif",
+        "images/ad-covers/*.png"
     ]
 }
