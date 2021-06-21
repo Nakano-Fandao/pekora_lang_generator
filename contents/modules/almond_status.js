@@ -5,7 +5,7 @@ const checkAlmondStatus = () => {
     const almond_tag = createAlmondTag();
 
     const almond_status = [];
-    const action_list = ["translation", "cursor", "images"];
+    const action_list = ["translation", "cursor", "image"];
     action_list.map( action => {
         almond_status.push(almond_tag.classList.contains(action))
     });

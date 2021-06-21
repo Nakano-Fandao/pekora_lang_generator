@@ -5,21 +5,23 @@ const ad_cover_dir = chrome.extension.getURL("../images/ad-covers/");
 const img_urls = [ad_cover_dir+"pekora.png", ad_cover_dir+"carrot.png"];
 
 const switchImgs = () => {
-
     switchAdFrame();
     console.log("Switching images completed")
+
     import("./loading.js").then( module => module.removeLoading() );
     import("./almond_status.js")
         .then( module => module.updateAlmondStatus("image", true) );
 }
 
 const returnOriginalImgs = () => {
+    Array.from( document.getElementsByClassName('ad-cover') )
+        .map( ad_cover => ad_cover.remove() );
+
     import("./loading.js").then( module => module.removeLoading() );
     import("./almond_status.js")
         .then( module => module.updateAlmondStatus("image", false) );
 
 }
-
 
 // iframe ad ----------------------------------------
 const switchAdFrame = () => {
@@ -42,6 +44,9 @@ const createAdCover = (target_elem) => {
     ad_cover.classList.add("ad-cover");
     ad_cover.appendChild(img_tag);
     target_elem.parentNode.insertBefore(ad_cover, target_elem);
+}
+const removeAdcCover = (target_elem) => {
+
 }
 const tagFilter = (item, kwd_list) => {
     const id_bool = kwd_list.map( kwd => item.id.includes(kwd) ).includes(true);
