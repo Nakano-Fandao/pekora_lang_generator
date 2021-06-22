@@ -21,9 +21,14 @@ const scrape = () => {
 }
 
 // Ajax
-function send_to_py(array) {
+const send_to_py = async (array) => {
+
+    // Modules
+    const removeLoading_module = await import("./loading.js");
+    const updateAlmondStatus_module = await import("./almond_status.js");
 
     const data_to_python = JSON.stringify(array);
+    console.log("Start Ajax request")
     $.ajax({
       type          : 'POST',
       url           : HOST + '/pekora',
@@ -33,21 +38,25 @@ function send_to_py(array) {
     .then(
         // Success
         data => {
+            console.log("Ajax completed successfully!");
+
+            // Replace sentence in the web page with pekora sentences
             const result = JSON.parse(data);
             replace_all(result.body);
             replace_all(result.headline);
-            import("./loading.js").then( module => module.removeLoading() );
-            import("./almond_status.js")
-                .then( module => module.updateAlmondStatus("translation", true) );
+
+            removeLoading_module.removeLoading();
+            updateAlmondStatus_module.updateAlmondStatus("translation", true);
             console.log("Translation completed");
         },
         // Failure
         error => {
-            alert('翻訳失敗ぺこ！！')
-            import("./loading.js").then( module => module.removeLoading() )
+            alert('翻訳失敗ぺこ！！');
+            console.log(error)
+            removeLoading_module.removeLoading();
         }
     )
-    .catch( e => console.trace(e));
+    .then( () => console.log("Data sending completed") );
 }
 
 // Replace sentences in web with pekora lang
@@ -64,10 +73,24 @@ function replace_all(dict) {
 
 const translate = () => {
     // Scrape body & headlines and create dictionary
-    const sentence_dict = scrape()
+    const sentence_dict = scrape();
+    console.log("Scraping completed");
 
     // Send the dict to views.py
     send_to_py(sentence_dict);
 }
 
-export {translate};
+const detranslate = () => {
+    Promise.all([
+        import("./loading.js"),
+        import("./almond_status.js")
+    ]).then( (modules) => {
+        modules[0].removeLoading();
+        modules[1].updateAlmondStatus("translation", false);
+        console.log("Detranslation completed");
+    });
+
+
+}
+
+export {translate, detranslate};

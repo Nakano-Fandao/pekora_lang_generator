@@ -10,17 +10,26 @@ const usePekoraCursor = () => {
     const pointer_tag = ["a", "button", "label a"];
     pointer_tag.map( tag => $(tag).css("cursor", "URL('" + pointerUrl + "'), pointer") );
 
-    import("./loading.js").then( module => module.removeLoading() );
-    import("./almond_status.js")
-        .then( module => module.updateAlmondStatus("cursor", true) );
+    Promise.all([
+        import("./loading.js"),
+        import("./almond_status.js")
+    ]).then( (modules) => {
+        modules[0].removeLoading();
+        modules[1].updateAlmondStatus("cursor", true);
+    });
     console.log("Activate Pekora cursor");
 }
 
 const removePekoraCursor = () => {
     $("body").css("cursor", "auto");
-    import("./loading.js").then( module => module.removeLoading() );
-    import("./almond_status.js")
-        .then( module => module.updateAlmondStatus("cursor", false) );
+
+    Promise.all([
+        import("./loading.js"),
+        import("./almond_status.js")
+    ]).then( (modules) => {
+        modules[0].removeLoading();
+        modules[1].updateAlmondStatus("cursor", false);
+    });
     console.log("Deactivate Pekora cursor");
 }
 

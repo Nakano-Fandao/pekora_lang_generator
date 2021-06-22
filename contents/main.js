@@ -14,7 +14,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
     switch (action) {
         case "translation":
-            readPekora(); break;
+            readPekora(flag); break;
         case "cursor":
             usePekora(flag); break;
         case "image":
@@ -29,27 +29,39 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 });
 
 //
-const readPekora = () => {
-    // A greeting from Pekora
-    console.log("こんぺこ！こんぺこ！こんぺこー！ホロライブ3期生の兎田ぺこらぺこ～！");
-    // Display the loading gif
-    import("./modules/loading.js").then( module => module.displayLoading() );
-    // Translate
-    import("./modules/translation.js").then( module => module.translate() );
+const readPekora = (flag) => {
+    Promise.all([
+        import("./modules/loading.js"),
+        import("./modules/translation.js")
+    ]).then( (modules) => {
+        // A greeting from Pekora
+        console.log("こんぺこ！こんぺこ！こんぺこー！ホロライブ3期生の兎田ぺこらぺこ～！");
+        // Display the loading gif
+        modules[0].displayLoading();
+        // Translate
+        (flag) ? modules[1].translate() : modules[1].detranslate();
+    });
+    console.log("こんぺこ");
 }
 
 const usePekora = (flag) => {
-    import("./modules/loading.js").then( module => module.displayLoading() );
-    import("./modules/cursor.js").then( module => {
-            (flag) ? module.usePekoraCursor() : module.removePekoraCursor();
-        });
+    Promise.all([
+        import("./modules/loading.js"),
+        import("./modules/cursor.js")
+    ]).then( (modules) => {
+        modules[0].displayLoading();
+        (flag) ? modules[1].usePekoraCursor() : modules[1].removePekoraCursor();
+    });
 }
 
 const seePekora = (flag) => {
-    import("./modules/loading.js").then( module => module.displayLoading() );
-    import("./modules/switch.js").then( module => {
-        (flag) ? module.switchImgs() : module.returnOriginalImgs();
-    })
+    Promise.all([
+        import("./modules/loading.js"),
+        import("./modules/switch.js")
+    ]).then( (modules) => {
+        modules[0].displayLoading();
+        (flag) ? modules[1].switchImgs() : modules[1].returnOriginalImgs();
+    });
 }
 
 // 機能の使用状況を把握
