@@ -1,5 +1,6 @@
 .ad-cover {
     position: relative;
+    z-index: 100;
 }
 .ad-cover img {
     position: absolute;
