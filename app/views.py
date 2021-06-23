@@ -1,9 +1,10 @@
-# app.py
-from os import terminal_size
+# -*- coding: utf-8 -*-
+
+# Modules
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import json
-import peko_lang
+from main_peko import peko_main
 
 app = Flask(__name__)
 CORS(app)
@@ -56,14 +57,14 @@ def pekora():
 
 
 def translate_body(sentence_list):
-    peko_sentence_list = list(map(peko_lang.peko_main, sentence_list))
+    peko_sentence_list = list(map(peko_main, sentence_list))
     return peko_sentence_list
 
 def translate_headline(headline_dict):
     headline_numbers = [len(lines) for lines in headline_dict.values()]
     headline_values = sum(headline_dict.values(), [])
 
-    peko_headlines = list(map(peko_lang.peko_main, headline_values))
+    peko_headlines = list(map(peko_main, headline_values))
 
     peko_head = {}
     for i, tag in enumerate(list(headline_dict)):

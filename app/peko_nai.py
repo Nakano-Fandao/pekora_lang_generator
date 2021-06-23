@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+# Modules
 from mecab_operation import mecab_dict, Keitaiso
 
 def exchange_pekonai(sentence):
@@ -6,9 +9,16 @@ def exchange_pekonai(sentence):
     keitaiso=Keitaiso(word_dict)
 
     s_list = []
+    skip = 0
     LAST = len(word_dict)-1
-    i=0
-    while i <= LAST:
+
+    # 関数
+    add = s_list.append
+
+    for i in range(LAST+1):
+
+        # skip処理
+        if skip > 0: skip-= 1; continue
 
         # 変数の格納
         word0, form0 = keitaiso.get(i, word=True, form=True)
@@ -17,25 +27,27 @@ def exchange_pekonai(sentence):
 
         # 条件に合致したら、ぺこらフレーズをいれる
         if word0 == "ない" and word1 == "の":
-            s_list.append("ねぇー")
-            i += 1
+            add("ねぇー")
+            continue
 
         elif word0 == "ない" and word1 == "か":
-            s_list.append("ねぇーの")
-            i += 2
+            add("ねぇーの")
+            skip = 1
+            continue
 
         elif word0 in ["違う", "ちがう"] and word1 == "の":
-            s_list.append("ちげぇー")
-            i += 1
+            add("ちげぇー")
+            continue
 
         elif word0 in ["違う", "ちがう"] and word1 == "の":
-            s_list.append("ちげぇーの")
-            i += 2
+            add("ちげぇーの")
+            skip = 1
+            continue
 
         # 条件に合致しなかったら、進む
         else:
-            s_list.append(word0)
-            i += 1
+            add(word0)
+            continue
 
     peko_sentence = ''.join(s_list)
 

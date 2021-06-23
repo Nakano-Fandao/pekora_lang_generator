@@ -1,70 +1,107 @@
+# -*- coding: utf-8 -*-
+
+# Modules
+from icecream import ic
 from mecab_operation import mecab_dict, Keitaiso
 
+#Mode
+debug = False
+
 def add_peko(sentence):
+    """
+        word0:      current keitaiso
+        word1:      next keitaiso
+    """
 
     word_class = mecab_dict(sentence)
-    keitaiso=Keitaiso(word_class)
+    keitaiso = Keitaiso(word_class)
     LAST = len(word_class)-1
     s_list = []
+    skip = 0
+
+    # 関数
+    add = s_list.append
 
     i = 0
-    while i <= LAST:
+    for i in range(LAST+1):
+
+        # skip処理
+        if skip > 0: skip-= 1; continue
 
         # 変数を格納
         word0, part0, subpart0, form0, origin0 = keitaiso.get(i, word=True, part=True, subpart1=True, form=True, origin=True)
 
         if i != LAST:
-            word1, part1 = keitaiso.get(i+1, word=True, part=True)
-        elif i == LAST:
+            word1, part1, form1 = keitaiso.get(i+1, word=True, part=True, form=True)
+            if i != LAST-1:
+                word2, part2, form2 = keitaiso.get(i+2, word=True, part=True, form=True)
+            else:
+                word2 = None
+                part2 = '補助記号'
+        else:
             word1 = None
             part1 = '補助記号'
 
+        # デバッグ時の形態素確認
+        if debug: ic(word0, part0, subpart0, form0, origin0)
+
+
         if word0 == "な":
-            s_list.append(word0)
-            s_list.append("ぺこ")
-            i += 1
+            add(word0)
+            add("ぺこ")
+            continue
 
         elif form0 == "命令形":
-            s_list.append(origin0)
-            s_list.append("ぺこ")
-            i += 1
+            add(origin0)
+            add("ぺこ")
+            continue
 
         elif (form0 == "終止形") & (part1 in ["補助記号", "助詞"]):
-            s_list.append(word0)
-            s_list.append("ぺこ")
-            i += 1
+            add(word0)
+            add("ぺこ")
+            continue
 
         elif (form0 == "連体形") & (part1 in ["補助記号"]):
-            s_list.append(word0)
-            s_list.append("ぺこ")
-            i += 1
+            add(word0)
+            add("ぺこ")
+            continue
 
         elif (word0 == "か") & (part1 == "補助記号"):
-            i += 1
+            continue
 
-        elif (part0 == "名詞") & (word1 == 'か'):
-            s_list.append(word0)
-            s_list.append("ぺこ")
-            i += 2
+        elif (part0 == "名詞"):
+            if (word1 == 'か'):
+                add(word0)
+                add("ぺこ")
+                skip = 1; continue
 
+            elif (word1 == "だ") & (form1 == "終止形"):
+                add(word0)
+                add("ぺこ")
+                if (word2 == "が") & (part2 == "助詞"):
+                    add("なんですけど")
+                    skip = 2; continue
+                else:
+                    skip = 1; continue
 
         elif subpart0 in ["終助詞", "副助詞"]:
-            s_list.append("ぺこ")
-            s_list.append(word0)
-            i += 1
+            add("ぺこ")
+            add(word0)
+            continue
 
-        else:
-            s_list.append(word0)
-            i += 1
+        # 条件に引っかからなかったら
+        add(word0)
+        continue
+
 
     peko_sentence = ''.join(s_list)
 
     return peko_sentence
 
 
-sentence = """
-<a href='#1'>PythonでぺこらのChrome拡張を作成してくれた方には豪華賞品を送る</a>
+sentence = """pythonだが、楽しい
 """
 
 if __name__ == "__main__":
+    debug = True
     print(add_peko(sentence))

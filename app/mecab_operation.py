@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+# Modules
 import MeCab
 
 # MeCab data → list of dictionary

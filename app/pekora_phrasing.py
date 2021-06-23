@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+# Modules
 import json
 
 json_path = './json_folder/'
