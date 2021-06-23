@@ -16,8 +16,13 @@ def remove_teinei(word_class):
     keitaiso = Keitaiso(word_class)
     sentence = ""
 
+    # 関数
+    shave = sentence.rsplit
+
+
     for i, word_dict in enumerate(word_class):
 
+        # 形態素情報を格納
         word0, part0, subpart0, form0, origin0, kana0 = keitaiso.get(i, word=True, part=True, subpart1=True, form=True, origin=True, kana=True)
         if i != 0:
             p_word1, p_part1, p_subpart1, p_type1, p_form1, p_origin1, p_kana1 = keitaiso.get(i-1, word=True, part=True, subpart1=True, type=True, form=True, origin=True, kana=True)
@@ -27,16 +32,15 @@ def remove_teinei(word_class):
         if i != LAST:
             part1, origin1, kana1 = keitaiso.get(i+1, part=True, origin=True, kana=True)
 
+
         if i != 0:
             if (p_part1 == '補助記号') & (p_word1 not in ["。", "、"]):
                 sentence += word0
                 continue
 
         if part0 == "接頭辞":
-            o_escape_list = ["ハシ", "メデタイ", "ミソシル", "コメ", "ウチ", "セワ"]
-            go_escape_list = ["ハン"]
-            if ((kana0 in ["オ"]) & (kana1 not in o_escape_list)) | \
-                ((kana0 in ["ゴ"]) & (kana1 not in go_escape_list)):
+            if ((kana0 in ["オ"]) & (kana1 not in set(["ハシ", "メデタイ", "ミソシル", "コメ", "ウチ", "セワ"]))) | \
+                ((kana0 in ["ゴ"]) & (kana1 not in set(["ハン"]))):
                 continue
 
         elif part0 == '助動詞':
@@ -46,44 +50,44 @@ def remove_teinei(word_class):
 
             if origin0 == 'ます':
 
-                if p_origin1 in ["ござる", "御座る"]:
+                if p_origin1 in set(["ござる", "御座る"]):
 
                     if word_class[i-2]["part"] == '助動詞':
 
                         # で-ござい-ます-△ → だ-△
-                        sentence = sentence.rsplit(p_word1, 1)[0][:-1] + get_katsuyou("", "助動詞-ダ", form0, onbin)
+                        sentence = shave(p_word1, 1)[0][:-1] + get_katsuyou("", "助動詞-ダ", form0, onbin)
                         continue
 
                     # おはようございます、など
                     else:
                         # 〇-ござい-ます-△ → 〇-△
-                        sentence = sentence.rsplit(p_word1, 1)[0]
+                        sentence = shave(p_word1, 1)[0]
                         continue
 
                 elif p_origin1 in ["いたす", "致す"]:
                     # いたし-ます-△ → する-△
-                    sentence = sentence.rsplit(p_word1, 1)[0] + get_katsuyou("する", "サ行変格", form0, onbin)
+                    sentence = shave(p_word1, 1)[0] + get_katsuyou("する", "サ行変格", form0, onbin)
                     continue
 
                 elif (p_origin1 in ["おる"]):
                     if (word_class[i-2]["origin"] == "を") | (i<=2):
-                        sentence = sentence.rsplit(p_word1, 1)[0] + get_katsuyou("おる", "五段-ラ行", form0, onbin)
+                        sentence = shave(p_word1, 1)[0] + get_katsuyou("おる", "五段-ラ行", form0, onbin)
                         continue
                     else:
                         # て-おり-ます-△ → て-いる-△
-                        sentence = sentence.rsplit(p_word1, 1)[0] + get_katsuyou("いる", "上一段-ア行", form0, onbin)
+                        sentence = shave(p_word1, 1)[0] + get_katsuyou("いる", "上一段-ア行", form0, onbin)
                         continue
 
                 elif (p_origin1 in ["居る"]):
-                    sentence = sentence.rsplit(p_word1, 1)[0] + get_katsuyou("いる", "上一段-ア行", form0, onbin)
+                    sentence = shave(p_word1, 1)[0] + get_katsuyou("いる", "上一段-ア行", form0, onbin)
                     continue
 
                 elif (p_kana1 == "アル") & (kana1 in ["ナイ", "ヌ"]):
-                    sentence = sentence.rsplit(p_word1, 1)[0]
+                    sentence = shave(p_word1, 1)[0]
                     continue
 
                 else:
-                    sentence = sentence.rsplit(p_word1, 1)[0] + get_katsuyou(p_origin1, p_type1, form0, onbin)
+                    sentence = shave(p_word1, 1)[0] + get_katsuyou(p_origin1, p_type1, form0, onbin)
                     continue
 
             elif origin0 == 'です':

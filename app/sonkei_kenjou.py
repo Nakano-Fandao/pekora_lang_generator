@@ -32,7 +32,7 @@ def remove_sonken(word_class):
     for i, word_dict in enumerate(word_class):
 
         # 形態素の情報を取得
-        word0, part0, subpart0, form0, kana0 = keitaiso.get(i, word=True, part=True, subpart0=True, form=True, kana=True)
+        word0, part0, subpart0, form0, kana0 = keitaiso.get(i, word=True, part=True, subpart1=True, form=True, kana=True)
 
             # 最後以外
         if i < LAST:
@@ -86,7 +86,7 @@ def remove_sonken(word_class):
 
                 elif i < LAST-1:
                     skip_flag = True
-                    if kana2 in ["クダサル", "イタス"]:
+                    if kana2 in set(["クダサル", "イタス"]):
                         action_word = kana2
 
                     elif kana2 != 'ニ':

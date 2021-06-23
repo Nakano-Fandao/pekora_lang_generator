@@ -22,7 +22,6 @@ def add_peko(sentence):
     # 関数
     add = s_list.append
 
-    # 文字を最初からしらべてぺこを挿入
     for i in range(LAST+1):
 
         # skip処理
@@ -45,35 +44,36 @@ def add_peko(sentence):
         # デバッグ時の形態素確認
         if debug: ic(word0, part0, subpart0, form0, origin0)
 
-        # 黙れ > 黙るぺこ
-        if form0 == "命令形":
+
+        if word0 == "な":
+            add(word0)
+            add("ぺこ")
+            continue
+
+        elif form0 == "命令形":
             add(origin0)
             add("ぺこ")
             continue
 
-        # 寝る。 > 寝るぺこ。
         elif (form0 == "終止形") & (part1 in ["補助記号", "助詞"]):
             add(word0)
             add("ぺこ")
             continue
 
-        # 終わりにする？ > 終わりにするぺこ？
         elif (form0 == "連体形") & (part1 in ["補助記号"]):
             add(word0)
             add("ぺこ")
             continue
 
-        # マリンか？ > マリンぺこか？
         elif (word0 == "か") & (part1 == "補助記号"):
             continue
 
         elif (part0 == "名詞"):
-            # おばけか > おばけぺこか
             if (word1 == 'か'):
                 add(word0)
                 add("ぺこ")
                 skip = 1; continue
-            # 配信だが > 配信ぺこなんですけど
+
             elif (word1 == "だ") & (form1 == "終止形"):
                 add(word0)
                 add("ぺこ")
@@ -83,7 +83,6 @@ def add_peko(sentence):
                 else:
                     skip = 1; continue
 
-        #　嘘じゃん > 嘘ぺこじゃん
         elif subpart0 in ["終助詞", "副助詞"]:
             add("ぺこ")
             add(word0)

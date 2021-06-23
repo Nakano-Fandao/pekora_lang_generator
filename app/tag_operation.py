@@ -5,7 +5,7 @@ import re
 from icecream import ic
 
 # Mode
-debug = False
+debug = True
 
 def replace_tags(sentence):
 
@@ -13,7 +13,7 @@ def replace_tags(sentence):
     tag_list = ['a', 'button', 'cite', 'code', 'iframe', 'img', 'input', 'label', 'select', 'span', 'strong', 'ruby', 'rt']
 
     pattern_list = \
-        [f'<{tag}.*?>' for tag in tag_list] + \
+        [f'<{tag}[^>]*>' for tag in tag_list] + \
         [f"</{tag}>" for tag in tag_list]
 
     # Tag pattern
@@ -27,7 +27,7 @@ def replace_tags(sentence):
         return sentence, tags
 
     # Replacing process
-    replaced_sentence = re.sub(re.compile(('|').join(tags)), "TAG_FLAG", sentence)
+    replaced_sentence = re.sub(('|').join(tags), "TAG_FLAG", sentence)
 
     if debug: ic(replaced_sentence, tags)
     return replaced_sentence, tags
@@ -41,9 +41,15 @@ def return_tags(sentence, tags):
     return sentence
 
 
-sentence = """な<a href="javascript:void(0)" class="dicWin" id="id-0002"><span class="under">ミス</span></a>・<a href="javascript:void(0)" class="dicWin" id="id-0003"><span class="under">コンテスト</span></a>に、<ruby>大学生<rt>だいがくせい</rt>
+sentence = """<li>
+          <a href="https://nobunaga.hatenablog.jp/archive/category/c%2B%2B" class="category-c">
+            c++ (16)
+          </a>
+          <a></a>
+        </li>
 """
 
 if __name__ == "__main__":
     debug = True
-    replace_tags(sentence)
+    sentence, tag = replace_tags(sentence)
+    print(return_tags(sentence, tag))
