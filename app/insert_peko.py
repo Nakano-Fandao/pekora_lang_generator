@@ -31,15 +31,16 @@ def add_peko(sentence):
         # 変数を格納
         word0, part0, subpart0, form0, origin0 = keitaiso.get(i, word=True, part=True, subpart1=True, form=True, origin=True)
 
-        if i != LAST:
+        if i < LAST:
             word1, part1, form1 = keitaiso.get(i+1, word=True, part=True, form=True)
-            if i != LAST-1:
-                word2, part2, form2 = keitaiso.get(i+2, word=True, part=True, form=True)
+            if i < LAST-1:
+                word2, part2 = keitaiso.get(i+2, word=True, part=True)
             else:
                 word2 = None
                 part2 = '補助記号'
         else:
             word1 = None
+            form1 = None
             part1 = '補助記号'
 
         # デバッグ時の形態素確認
@@ -51,17 +52,25 @@ def add_peko(sentence):
             add("ぺこ")
             continue
 
-        # 寝る > 寝るぺこ。
-        elif (form0 == "終止形") & (part1 in ["補助記号", "助詞"]):
+        # 寝る。 > 寝るぺこ。
+        elif form0 == "終止形":
             add(word0)
             add("ぺこ")
             continue
 
         # 終わりにする？ > 終わりにするぺこ？
-        elif (form0 == "連体形") & (part1 in ["補助記号"]):
+        elif (form0 == "連体形"):
             add(word0)
-            add("ぺこ")
-            continue
+            if (word1 == "の") & (part1 == "助詞"):
+                add("ぺこなの")
+                skip = 1; continue
+            elif (part1 in ["補助記号"]):
+                add("ぺこ")
+                continue
+            elif (part1 in ["名詞"]):
+                continue
+            else:
+                continue
 
         # マリンか？ > マリンぺこか？
         elif (word0 == "か") & (part1 == "補助記号"):
@@ -73,6 +82,7 @@ def add_peko(sentence):
                 add(word0)
                 add("ぺこ")
                 skip = 1; continue
+
             # 配信だが > 配信ぺこなんですけど
             elif (word1 == "だ") & (form1 == "終止形"):
                 add(word0)
@@ -84,7 +94,7 @@ def add_peko(sentence):
                     skip = 1; continue
 
         #　嘘じゃん > 嘘ぺこじゃん
-        elif subpart0 in ["終助詞", "副助詞"]:
+        elif subpart0 in ["終助詞"]:
             add("ぺこ")
             add(word0)
             continue
@@ -93,13 +103,20 @@ def add_peko(sentence):
         add(word0)
         continue
 
-
     peko_sentence = ''.join(s_list)
 
     return peko_sentence
 
 
-sentence = """pythonだが、楽しい
+sentence = """お手数おかけしますって英語でなんて言うの？
+お手数おかけしてすみませんって英語でなんて言うの？
+全国で発売って英語でなんて言うの？
+歴史上の人物って英語でなんて言うの？
+図書館で借りてきた教則本を見ながら(ピアノを)練習したって英語でなんて言うの？
+不明な点がございましたらスタッフまでお声がけ下さい。って英語でなんて言うの？
+彼に甘やかしすぎではないですか？って英語でなんて言うの？
+準決勝進出４チームが出揃いました って英語でなんて言うの？
+彼女を操るような真似するなって英語でなんて言うの？
 """
 
 if __name__ == "__main__":

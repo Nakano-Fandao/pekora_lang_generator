@@ -10,8 +10,8 @@ debug = False
 
 # Json Files
 json_path = './json_folder/'
-with open(json_path+"sonkei_kenjou.json") as f:
-    sonken_json = json.load(f)
+with open(json_path+"polite.json") as f:
+    polite_json = json.load(f)
 
 def convert_natural_to_peko(word_class):
 

@@ -5,16 +5,17 @@ import re
 from icecream import ic
 
 # Mode
-debug = True
+debug = False
 
 def replace_tags(sentence):
 
     # Create pattern list
-    tag_list = ['a', 'button', 'cite', 'code', 'iframe', 'img', 'input', 'label', 'select', 'span', 'strong', 'ruby', 'rt']
+    tag_list = ['a', 'button', 'cite', 'code', 'iframe', 'img', 'input', 'label', 'select', 'span', 'strong', 'ruby']
 
     pattern_list = \
         [f'<{tag}[^>]*>' for tag in tag_list] + \
-        [f"</{tag}>" for tag in tag_list]
+        [f"</{tag}>" for tag in tag_list] +\
+        ["<rt.*?/rt>"]
 
     # Tag pattern
     patterns = re.compile(('|').join(pattern_list))
