@@ -1,4 +1,3 @@
-##Pekora_lang_generator | kazuki-nishimura, aosatomiru
 ![peko_header](images/peko_header.png)
 
 ## 🐰About
